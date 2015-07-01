@@ -9,7 +9,7 @@
 # double check this script to make sure you understand what it does
 #
 # usage: wget -q https://raw.githubusercontent.com/epistrephein/serverscripts/master/initialserversetup.sh; bash initialserversetup.sh
-# short version: wget -q git.io/ubuntuserver; bash ubuntuserver
+# short: wget -q git.io/ubuntuserver; bash ubuntuserver
 
 # check if Ubuntu
 if [[ "$(python -mplatform)" !=  *"Ubuntu"* ]]; then
