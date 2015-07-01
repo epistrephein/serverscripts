@@ -186,6 +186,14 @@ if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
   echo "Done."
 fi
 
+# change motd
+echo
+read -p "Clean up the default motd and add a banner? [Y/n] " -s -n 1 -r; echo
+if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
+  wget -q https://raw.githubusercontent.com/epistrephein/serverscripts/master/motd.sh; bash motd.sh
+  echo "Done."
+fi
+
 
 echo
 echo "All done. Bye!"
