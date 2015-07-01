@@ -1,5 +1,16 @@
 #!/usr/bin/env bash
 
+# Initial server setup script for Ubuntu
+# based on Digital Ocean's setup tutorials
+# converted to bash script by Tommaso Barbato (@epistrephein)
+# https://github.com/epistrephein/serverscripts
+#
+# be careful with what you execute in your shell!
+# double check this script to make sure you understand what it does
+#
+# usage: wget -q https://raw.githubusercontent.com/epistrephein/serverscripts/master/initialserversetup.sh; bash initialserversetup.sh
+# short version: wget -q http://git.io/ubuntuserver; bash ubuntuserver
+
 # check if Ubuntu
 if [[ "$(python -mplatform)" !=  *"Ubuntu"* ]]; then
   >&2 echo "This script requires Ubuntu."
