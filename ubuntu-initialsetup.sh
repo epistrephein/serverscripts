@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+# check if Ubuntu
+if [[ "$(python -mplatform)" !=  *"Ubuntu"* ]]; then
+  >&2 echo "This script requires Ubuntu."
+  exit 1
+fi
+
 # check if root
 if [[ $EUID -ne 0 ]]; then
   >&2 echo "This script must be run as root."
