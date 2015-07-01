@@ -170,8 +170,7 @@ echo "==== Configuring system ===="
 read -p "Apply basic dotfiles? [Y/n] " -s -n 1 -r; echo
 if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
   if [ ! -z "$NEWUSER" ]; then
-    # need fixing
-    su $NEWUSER -c "cd; wget -q https://gist.githubusercontent.com/epistrephein/5d455faf642b3db06cd9/raw/dotfiles.sh; bash dotfiles.sh; [ -f dotfiles.sh ] && rm dotfiles.sh"
+    su $NEWUSER -c "cd; wget -q https://raw.githubusercontent.com/epistrephein/serverscripts/master/dotfiles.sh; bash dotfiles.sh; rm -f dotfiles.sh"
   fi
   echo "Done."
 fi
