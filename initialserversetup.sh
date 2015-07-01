@@ -18,10 +18,20 @@ echo "     Initial Server Setup Script     "
 echo "====================================="
 echo
 
-## update
-echo "Updating packets index..."
+## update packages
+echo "Updating packages index"
 apt-get update > /dev/null
+
+# essentials packages
+hash curl 2>/dev/null || apt-get install -y curl > /dev/null
+hash wget 2>/dev/null || apt-get install -y wget > /dev/null
+hash vim 2>/dev/null || apt-get install -y vim > /dev/null
+hash add-apt-repository 2>/dev/null || apt-get install -y software-properties-common > /dev/null
+
+# useful packages
 hash pwgen 2>/dev/null || apt-get install -y pwgen > /dev/null
+hash autojump 2>/dev/null || apt-get install -y autojump > /dev/null
+
 echo "Done."
 
 
@@ -91,9 +101,14 @@ read -p "Enable ufw? [Y/n] " -s -n 1 -r; echo
 if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
   hash ufw 2>/dev/null || { echo "Installing ufw"; apt-get install -y ufw > /dev/null; }
   printf "Insert ports to allow (separated by space): "; read -a ALLOWEDPORTS
+  VALIDINPUT='^[0-9]+$'
   for p in ${ALLOWEDPORTS[@]}
   do
-    ufw allow $p/tcp
+    if [[ $p =~ $VALIDINPUT ]]; then
+      ufw allow $p/tcp
+    else
+      echo "$p is not a valid port number"
+    fi
   done
   [ ! -z "$SSHPORT" ] && ufw allow $SSHPORT/tcp || ufw allow `cat /etc/ssh/sshd_config | grep Port | head -1 | cut -c 6-`/tcp
   ufw show added
@@ -154,8 +169,8 @@ echo "==== Configuring system ===="
 # dotfiles
 read -p "Apply basic dotfiles? [Y/n] " -s -n 1 -r; echo
 if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
-  hash curl 2>/dev/null || apt-get install -y curl > /dev/null
   if [ ! -z "$NEWUSER" ]; then
+    # need fixing
     su $NEWUSER -c "cd; wget -q https://gist.githubusercontent.com/epistrephein/5d455faf642b3db06cd9/raw/dotfiles.sh; bash dotfiles.sh; [ -f dotfiles.sh ] && rm dotfiles.sh"
   fi
   echo "Done."
