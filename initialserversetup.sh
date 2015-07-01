@@ -43,7 +43,7 @@ echo "==== Configuring users ===="
 read -p "Create new user? [Y/n] " -s -n 1 -r; echo
 if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
   read -p "Enter new user: " NEWUSER
-  echo "Here's a newly generated password you can use: `pwgen -s 13 1`"; echo
+  echo "Here's a newly generated password you can use: ==>  `pwgen -s 13 1`  <=="; echo
   adduser --gecos "" $NEWUSER
   gpasswd -a $NEWUSER sudo
   echo "$NEWUSER ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
@@ -170,7 +170,7 @@ echo "==== Configuring system ===="
 read -p "Apply basic dotfiles? [Y/n] " -s -n 1 -r; echo
 if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
   if [ ! -z "$NEWUSER" ]; then
-    su $NEWUSER -c "cd; wget -q https://raw.githubusercontent.com/epistrephein/serverscripts/master/dotfiles.sh; bash dotfiles.sh; rm -f dotfiles.sh"
+    su $NEWUSER -c "cd; wget -q https://raw.githubusercontent.com/epistrephein/serverscripts/master/dotfiles.sh; bash dotfiles.sh"
   fi
   echo "Done."
 fi

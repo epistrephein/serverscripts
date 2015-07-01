@@ -5,3 +5,6 @@ curl -sL https://raw.githubusercontent.com/epistrephein/serverscripts/master/dot
 mkdir -p $HOME/.vim/colors
 curl -sL -o $HOME/.vim/colors/rdark.vim https://raw.githubusercontent.com/epistrephein/serverscripts/master/dotfiles/rdark.vim
 curl -sL https://raw.githubusercontent.com/epistrephein/serverscripts/master/dotfiles/.vimrc > $HOME/.vimrc
+
+# autoremove script
+rm -- "$0"
