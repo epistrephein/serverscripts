@@ -161,18 +161,6 @@ if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
   echo "Done."
 fi
 
-# useful packages
-echo
-read -p "Install some useful packages? [Y/n] " -s -n 1 -r; echo
-if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
-  echo "Installing autojump"
-  apt-get install -y autojump > /dev/null
-  echo "Installing unzip"
-  apt-get install -y unzip > /dev/null
-  echo "Installing software-properties-common"
-  apt-get install -y software-properties-common > /dev/null
-  echo "Done."
-fi
 
 echo
 echo "All done. Bye!"
