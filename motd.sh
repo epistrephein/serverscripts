@@ -34,7 +34,7 @@ fi
 
 # add banner file
 if [ ! -f /etc/update-motd.d/20-banner ]; then
-  wget -q https://raw.githubusercontent.com/epistrephein/serverscripts/master/motd/20-banner
+  wget -q https://raw.githubusercontent.com/epistrephein/serverscripts/master/motd/20-banner -O /etc/update-motd.d/20-banner
   chmod +x /etc/update-motd.d/20-banner
   echo "Adding banner (remember to customize the file /etc/update-motd.d/20-banner)"
 fi
