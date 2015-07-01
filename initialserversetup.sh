@@ -128,7 +128,6 @@ if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
     fi
   done
   [ ! -z "$SSHPORT" ] && ufw allow $SSHPORT/tcp || ufw allow `cat /etc/ssh/sshd_config | grep Port | head -1 | cut -c 6-`/tcp
-  ufw show added
   printf "Starting ufw... "; ufw enable
   echo "Done."
 fi
