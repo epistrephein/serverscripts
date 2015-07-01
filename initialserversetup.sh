@@ -57,7 +57,13 @@ if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
   echo "Here's a newly generated password you can use: ==>  `pwgen -s 13 1`  <=="; echo
   adduser --gecos "" $NEWUSER
   gpasswd -a $NEWUSER sudo
-  echo "$NEWUSER ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+
+  # passwordless sudo
+  echo
+  read -p "Enable passwordless sudo? [Y/n] " -s -n 1 -r; echo
+  if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
+    echo "$NEWUSER ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+  fi
   echo "Done."
 
   # add ssh key authentication and public keys
