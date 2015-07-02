@@ -183,15 +183,7 @@ fi
 echo
 echo "==== Configuring system ===="
 
-# fix locale issues
-read -p "Define en_US.UTF-8 locale? [Y/n] " -s -n 1 -r; echo
-if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
-  localedef -i en_US -f UTF-8 en_US.UTF-8
-  echo "Done."
-fi
-
 # dotfiles
-echo
 read -p "Apply basic dotfiles? [Y/n] " -s -n 1 -r; echo
 if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
   if [ ! -z "$NEWUSER" ]; then
