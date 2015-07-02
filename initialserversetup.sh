@@ -38,7 +38,7 @@ apt-get update > /dev/null
 hash sudo 2>/dev/null || apt-get install -y sudo > /dev/null
 hash curl 2>/dev/null || apt-get install -y curl > /dev/null
 hash wget 2>/dev/null || apt-get install -y wget > /dev/null
-hash vim 2>/dev/null || apt-get install -y vim > /dev/null
+hash vim 2>/dev/null || { apt-get install -y vim > /dev/null; rm /usr/bin/vi; ln -s /usr/bin/vim /usr/bin/vi; }
 
 # useful packages
 hash pwgen 2>/dev/null || apt-get install -y pwgen > /dev/null
