@@ -40,4 +40,4 @@ if [ ! -f /etc/update-motd.d/20-banner ]; then
 fi
 
 # autoremove script
-rm -- "$0"
+[ -f $0 ] && rm -- "$0"

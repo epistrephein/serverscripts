@@ -7,4 +7,4 @@ curl -sL -o $HOME/.vim/colors/rdark.vim https://raw.githubusercontent.com/epistr
 curl -sL https://raw.githubusercontent.com/epistrephein/serverscripts/master/dotfiles/.vimrc > $HOME/.vimrc
 
 # autoremove script
-rm -- "$0"
+[ -f $0 ] && rm -- "$0"
