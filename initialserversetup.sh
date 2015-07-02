@@ -14,6 +14,7 @@
 # check if Ubuntu
 if [[ "$(python -mplatform)" !=  *"Ubuntu-14"* ]] && [[ "$(python -mplatform)" !=  *"Ubuntu-12"* ]] && [[ "$(python -mplatform)" !=  *"debian-8"* ]]; then
   >&2 echo "This script requires Ubuntu 12/14 or Debian 8."
+  [ -f $0 ] && rm -- "$0"
   exit 1
 fi
 
