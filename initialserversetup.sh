@@ -61,10 +61,10 @@ if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
 
   echo "$NEWUSER ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
-  su $NEWUSER -c "cd; mkdir .ssh; chmod 700 .ssh; touch .ssh/authorized_keys; chmod 600 .ssh/authorized_keys"
-
   # ssh key authentication
   echo
+  su $NEWUSER -c "cd; mkdir .ssh; chmod 700 .ssh; touch .ssh/authorized_keys; chmod 600 .ssh/authorized_keys"
+  
   SSHKEY=0
   until [ -z "$SSHKEY" ]; do
     read -p "Paste the SSH public key, empty to finish: " SSHKEY
