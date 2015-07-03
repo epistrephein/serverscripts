@@ -13,14 +13,14 @@
 
 # check if Ubuntu
 if [[ "$(python -mplatform)" !=  *"Ubuntu-14"* ]] && [[ "$(python -mplatform)" !=  *"Ubuntu-12"* ]]; then
-  >&2 echo "This script requires Ubuntu 12/14."
+  { echo "This script requires Ubuntu." >&2; }
   [ -f $0 ] && rm -- "$0"
   exit 1
 fi
 
 # check if root
 if [[ $EUID -ne 0 ]]; then
-  >&2 echo "This script must be run as root."
+  { echo "This script must be run as root." >&2; }
   [ -f $0 ] && rm -- "$0"
   exit 1
 fi
