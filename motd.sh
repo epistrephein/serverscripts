@@ -14,15 +14,15 @@ fi
 
 # remove documentation info
 if [ -f /etc/update-motd.d/10-help-text ]; then
-  sed -i "s/^printf/# printf/g" /etc/update-motd.d/10-help-text
+  sed -i -e '/^printf/# printf/' /etc/update-motd.d/10-help-text
   echo "Removed Ubuntu documentation info"
 fi
 
 # remove landscape footnote notice
 if [ -f /usr/lib/python2.7/dist-packages/landscape/sysinfo/landscapelink.py ]; then
-  sed -i "s/^        self._sysinfo.add_footnote/#       self._sysinfo.add/g" /usr/lib/python2.7/dist-packages/landscape/sysinfo/landscapelink.py
-  sed -i "s/^            \"Graph this data/#           \"Graph this data/g" /usr/lib/python2.7/dist-packages/landscape/sysinfo/landscapelink.py
-  sed -i "s/^            \"    https/#           \"    https/g" /usr/lib/python2.7/dist-packages/landscape/sysinfo/landscapelink.py
+  sed -i -e '/^        self._sysinfo.add_footnote/#       self._sysinfo.add/' /usr/lib/python2.7/dist-packages/landscape/sysinfo/landscapelink.py
+  sed -i -e '/^            \"Graph this data/#           \"Graph this data/' /usr/lib/python2.7/dist-packages/landscape/sysinfo/landscapelink.py
+  sed -i -e '/^            \"    https/#           \"    https/' /usr/lib/python2.7/dist-packages/landscape/sysinfo/landscapelink.py
   echo "Removed landscape notice"
 fi
 
