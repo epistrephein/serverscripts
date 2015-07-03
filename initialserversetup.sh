@@ -95,15 +95,15 @@ if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
   until [[ ! -z "$SSHPORT" && $SSHPORT =~ $VALIDINPUT ]]; do
     read -p "Invalid input. Please insert a number: " SSHPORT
   done
-  sed -i "s/^Port/s/^.*$/Port $SSHPORT/g" /etc/ssh/sshd_config
+  sed -i -e "/^Port/s/^.*$/Port $SSHPORT/" /etc/ssh/sshd_config
   SSHRESTART=1
 fi
 
 # change ssh login policy
 read -p "Prevent root login and password authentication? [Y/n] " -s -n 1 -r; echo
 if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
-  sed -i 's/^PermitRootLogin/s/^.*$/PermitRootLogin no/g' /etc/ssh/sshd_config
-  sed -i 's/^\#PasswordAuthentication/s/^.*$/PasswordAuthentication no/g' /etc/ssh/sshd_config
+  sed -i -e '/^PermitRootLogin/s/^.*$/PermitRootLogin no/' /etc/ssh/sshd_config
+  sed -i -e '/^\#PasswordAuthentication/s/^.*$/PasswordAuthentication no/' /etc/ssh/sshd_config
   SSHRESTART=1
 fi
 
@@ -174,7 +174,7 @@ if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
   chmod 600 /swapfile
   mkswap /swapfile
   swapon /swapfile
-  sh -c 'echo "/swapfile none swap sw 0 0" >> /etc/fstab'
+  sh -c 'echo "/swapfile   none    swap    sw    0   0" >> /etc/fstab'
   echo "Done."
 fi
 
