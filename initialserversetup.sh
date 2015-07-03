@@ -55,7 +55,7 @@ echo "==== Configuring users ===="
 read -p "Create new user? [Y/n] " -s -n 1 -r; echo
 if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
   read -p "Enter new user: " NEWUSER
-  adduser --gecos "" --disabled-password $NEWUSER
+  adduser --gecos "" --disabled-password --quiet $NEWUSER
   echo "Creating user $NEWUSER with no password"
   gpasswd -a $NEWUSER sudo
 
