@@ -41,7 +41,6 @@ hash wget 2>/dev/null || apt-get install -y wget > /dev/null
 hash vim 2>/dev/null || { apt-get install -y vim > /dev/null; rm /usr/bin/vi; ln -s /usr/bin/vim /usr/bin/vi; }
 
 # useful packages
-hash pwgen 2>/dev/null || apt-get install -y pwgen > /dev/null
 hash autojump 2>/dev/null || apt-get install -y autojump > /dev/null
 
 echo "Done."
@@ -51,34 +50,24 @@ echo "Done."
 echo
 echo "==== Configuring users ===="
 
-# create new user
+# create new sudo user
 read -p "Create new user? [Y/n] " -s -n 1 -r; echo
 if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
   read -p "Enter new user: " NEWUSER
-  echo "Here's a newly generated password you can use: ==>  `pwgen -s 13 1`  <=="; echo
-  adduser --gecos "" $NEWUSER
+  adduser --gecos "" --disabled-password $NEWUSER
+  echo "Creating user $NEWUSER with no password"
   gpasswd -a $NEWUSER sudo
 
-  # passwordless sudo
-  echo
-  read -p "Enable passwordless sudo? [Y/n] " -s -n 1 -r; echo
-  if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
-    echo "$NEWUSER ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
-  fi
+  echo "$NEWUSER ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+
+  su $NEWUSER -c "cd; mkdir .ssh; chmod 700 .ssh; touch .ssh/authorized_keys; chmod 600 .ssh/authorized_keys"
+
+  SSHKEY=0
+  until [ -z "$SSHKEY" ]; do
+    read -p "Paste the SSH public key, empty to finish: " SSHKEY
+    echo "$SSHKEY" >> /home/$NEWUSER/.ssh/authorized_keys
+  done
   echo "Done."
-
-  # add ssh key authentication and public keys
-  echo
-  read -p "Add SSH public key auth? [Y/n] " -s -n 1 -r; echo
-  if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
-    su $NEWUSER -c "cd; mkdir .ssh; chmod 700 .ssh; touch .ssh/authorized_keys; chmod 600 .ssh/authorized_keys"
-
-    SSHKEY=0
-    until [ -z "$SSHKEY" ]; do 
-      read -p "Paste the SSH public key, empty to quit: " SSHKEY
-      echo "$SSHKEY" >> /home/$NEWUSER/.ssh/authorized_keys
-    done
-  fi
 fi
 
 
@@ -100,7 +89,7 @@ if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
 fi
 
 # change ssh login policy
-read -p "Prevent root login and password authentication? [Y/n] " -s -n 1 -r; echo
+read -p "Prevent root login? [Y/n] " -s -n 1 -r; echo
 if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
   sed -i -e '/^PermitRootLogin/s/^.*$/PermitRootLogin no/' /etc/ssh/sshd_config
   sed -i -e '/^\#PasswordAuthentication/s/^.*$/PasswordAuthentication no/' /etc/ssh/sshd_config
