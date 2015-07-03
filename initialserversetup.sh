@@ -125,11 +125,11 @@ if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
     if [[ $p =~ $VALIDINPUT ]]; then
       ufw allow $p/tcp
     else
-      echo "$p is not a valid port number"
+      echo "$p is not a valid port number, skipping"
     fi
   done
   [ ! -z "$SSHPORT" ] && ufw allow $SSHPORT/tcp || ufw allow `cat /etc/ssh/sshd_config | grep Port | head -1 | cut -c 6-`/tcp
-  printf "Starting ufw... "; ufw enable
+  printf "Starting ufw... "; echo y | ufw enable
   echo "Done."
 fi
 
