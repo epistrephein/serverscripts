@@ -55,8 +55,8 @@ echo "==== Configuring users ===="
 read -p "Create new user? [Y/n] " -s -n 1 -r; echo
 if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
   read -p "Enter new user: " NEWUSER
-  adduser --gecos "" --disabled-password --quiet $NEWUSER
   echo "Creating user $NEWUSER with no password"
+  adduser --gecos "" --disabled-password --quiet $NEWUSER
   gpasswd -a $NEWUSER sudo
 
   echo "$NEWUSER ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
@@ -110,13 +110,13 @@ fi
 echo
 read -p "Enable ufw? [Y/n] " -s -n 1 -r; echo
 if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
-  hash ufw 2>/dev/null || { echo "Installing ufw"; apt-get install -y ufw > /dev/null; }
+  hash ufw 2>/dev/null || { echo "Installing ufw..."; apt-get install -y ufw > /dev/null; }
   printf "Insert ports to allow (separated by space): "; read -a ALLOWEDPORTS
   VALIDINPUT='^[0-9]+$'
   for p in ${ALLOWEDPORTS[@]}
   do
     if [[ $p =~ $VALIDINPUT ]]; then
-      ufw allow $p/tcp
+      ufw allow $p/tcp > /dev/null
     else
       echo "$p is not a valid port number, skipping"
     fi
@@ -131,8 +131,8 @@ fi
 echo
 read -p "Enable fail2ban? [Y/n] " -s -n 1 -r; echo
 if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
-  hash fail2ban 2>/dev/null || { echo "Installing fail2ban"; apt-get install -y fail2ban > /dev/null; }
-  echo "Applying basic fail2ban configuration"
+  hash fail2ban 2>/dev/null || { echo "Installing fail2ban..."; apt-get install -y fail2ban > /dev/null; }
+  echo "Applying basic fail2ban configuration..."
   cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local
   sed -i 's/bantime *= *600/bantime = 1800/g' /etc/fail2ban/jail.local
   echo "Starting fail2ban..."
@@ -188,7 +188,7 @@ fi
 
 # change motd
 echo
-read -p "Clean up the default motd and add a banner? [Y/n] " -s -n 1 -r; echo
+read -p "Clean up the default MOTD and add a banner? [Y/n] " -s -n 1 -r; echo
 if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
   curl -s https://raw.githubusercontent.com/epistrephein/serverscripts/master/motd.sh | bash
   echo "Done."
