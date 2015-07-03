@@ -64,7 +64,7 @@ if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
   # ssh key authentication
   echo
   su $NEWUSER -c "cd; mkdir .ssh; chmod 700 .ssh; touch .ssh/authorized_keys; chmod 600 .ssh/authorized_keys"
-  
+
   SSHKEY=0
   until [ -z "$SSHKEY" ]; do
     read -p "Paste the SSH public key, empty to finish: " SSHKEY
@@ -181,6 +181,9 @@ fi
 echo
 echo "==== Configuring system ===="
 
+# set vim as default editor
+update-alternatives --set editor /usr/bin/vim.basic
+
 # dotfiles
 read -p "Apply basic dotfiles? [Y/n] " -s -n 1 -r; echo
 if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
@@ -192,9 +195,13 @@ fi
 
 # change motd
 echo
-read -p "Clean up the default MOTD and add a banner? [Y/n] " -s -n 1 -r; echo
+read -p "Clean up MOTD and add a banner? [Y/n] " -s -n 1 -r; echo
 if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
   curl -s https://raw.githubusercontent.com/epistrephein/serverscripts/master/motd.sh | bash 1>/dev/null
+  read -p "Customize the banner now? [Y/n] " -s -n 1 -r; echo
+  if [[ $REPLY =~ ^[Yy]$ ]]; then
+    vim /etc/update-motd.d/20-banner
+  fi
   echo "Done."
 fi
 
