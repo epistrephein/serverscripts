@@ -163,6 +163,10 @@ echo "==== Configuring swap ===="
 read -p "Add swap file? [Y/n] " -s -n 1 -r; echo
 if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
   read -p "Swap file in GB: " SWAPSIZE
+  VALIDINPUT='^[0-9]+$'
+  while ! [[ $SWAPSIZE =~ $VALIDINPUT ]]; do
+    read -p "Invalid input. Please insert a number: " SWAPSIZE
+  done
   SWAPSIZE+="G"
   fallocate -l $SWAPSIZE /swapfile
   chmod 600 /swapfile
