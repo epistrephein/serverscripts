@@ -32,7 +32,7 @@ echo "====================================="
 echo
 
 ## update packages
-echo "Updating packages index"
+echo "Updating packages index..."
 apt-get update > /dev/null
 
 # essentials packages
@@ -63,6 +63,8 @@ if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
 
   su $NEWUSER -c "cd; mkdir .ssh; chmod 700 .ssh; touch .ssh/authorized_keys; chmod 600 .ssh/authorized_keys"
 
+  # ssh key authentication
+  echo
   SSHKEY=0
   until [ -z "$SSHKEY" ]; do
     read -p "Paste the SSH public key, empty to finish: " SSHKEY
@@ -90,6 +92,7 @@ if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
 fi
 
 # change ssh login policy
+echo
 read -p "Prevent root login? [Y/n] " -s -n 1 -r; echo
 if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
   sed -i -e '/^PermitRootLogin/s/^.*$/PermitRootLogin no/' /etc/ssh/sshd_config
@@ -99,7 +102,7 @@ fi
 
 if [ $SSHRESTART == 1 ]; then
   echo "Restarting ssh service..."
-  service ssh restart
+  service ssh restart > /dev/null
   echo "Done."
 fi
 
@@ -118,8 +121,9 @@ if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
       echo "$p is not a valid port number, skipping"
     fi
   done
-  [ ! -z "$SSHPORT" ] && ufw allow $SSHPORT/tcp || ufw allow `cat /etc/ssh/sshd_config | grep Port | head -1 | cut -c 6-`/tcp
-  printf "Starting ufw... "; echo y | ufw enable
+  [ ! -z "$SSHPORT" ] && ufw allow $SSHPORT/tcp > /dev/null || ufw allow $(grep Port /etc/ssh/sshd_config | head -1 | cut -c 6-)/tcp > /dev/null
+  ufw show added
+  echo "Starting ufw... "; echo y | ufw enable > /dev/null
   echo "Done."
 fi
 
@@ -131,8 +135,8 @@ if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
   echo "Applying basic fail2ban configuration"
   cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local
   sed -i 's/bantime *= *600/bantime = 1800/g' /etc/fail2ban/jail.local
-  echo "Starting fail2ban"
-  service fail2ban restart
+  echo "Starting fail2ban..."
+  service fail2ban restart > /dev/null
   echo "Done."
 fi
 
@@ -145,7 +149,7 @@ echo "==== Timezone settings ===="
 read -p "Reconfigure timezone [Y/n] " -s -n 1 -r; echo
 if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
   dpkg-reconfigure tzdata
-  echo "Installing NTP"
+  echo "Installing NTP..."
   apt-get install -y ntp > /dev/null
   echo "Done."
 fi
