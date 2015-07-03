@@ -185,7 +185,7 @@ echo "==== Configuring system ===="
 read -p "Apply basic dotfiles? [Y/n] " -s -n 1 -r; echo
 if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
   if [ ! -z "$NEWUSER" ]; then
-    su $NEWUSER -c "curl -s https://raw.githubusercontent.com/epistrephein/serverscripts/master/dotfiles.sh | bash"
+    su $NEWUSER -c "curl -s https://raw.githubusercontent.com/epistrephein/serverscripts/master/dotfiles.sh | bash 1>/dev/null"
   fi
   echo "Done."
 fi
@@ -194,7 +194,7 @@ fi
 echo
 read -p "Clean up the default MOTD and add a banner? [Y/n] " -s -n 1 -r; echo
 if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
-  curl -s https://raw.githubusercontent.com/epistrephein/serverscripts/master/motd.sh | bash
+  curl -s https://raw.githubusercontent.com/epistrephein/serverscripts/master/motd.sh | bash 1>/dev/null
   echo "Done."
 fi
 
