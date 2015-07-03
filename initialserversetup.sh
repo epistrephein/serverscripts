@@ -21,7 +21,7 @@ fi
 # check if root
 if [[ $EUID -ne 0 ]]; then
   >&2 echo "This script must be run as root."
-  [ -f $0 ] && echo "Launch it with sudo $0"
+  [ -f $0 ] && rm -- "$0"
   exit 1
 fi
 
