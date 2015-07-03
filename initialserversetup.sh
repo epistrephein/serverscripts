@@ -198,7 +198,7 @@ echo
 read -p "Clean up MOTD and add a banner? [Y/n] " -s -n 1 -r; echo
 if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
   curl -s https://raw.githubusercontent.com/epistrephein/serverscripts/master/motd.sh | bash 1>/dev/null
-  read -p "Customize the banner now? [Y/n] " -s -n 1 -r; echo
+  read -p "Customize the banner now? [y/N] " -s -n 1 -r; echo
   if [[ $REPLY =~ ^[Yy]$ ]]; then
     vim /etc/update-motd.d/20-banner
   fi
