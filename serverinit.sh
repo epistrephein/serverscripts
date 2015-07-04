@@ -46,9 +46,8 @@ hash wget 2>/dev/null || apt-get install -y wget >/dev/null
 hash vim 2>/dev/null || { apt-get install -y vim >/dev/null; rm /usr/bin/vi; ln -s /usr/bin/vim /usr/bin/vi; }
 
 if [ "$DISTRO" == "debian" ]; then
-  dpkg -s debian-keyring >/dev/null 2>&1 || apt-get install debian-keyring>/dev/null
-  dpkg -s debian-archive-keyring >/dev/null 2>&1 || apt-get install debian-archive-keyring >/dev/null
-  dpkg -s update-notifier-common >/dev/null 2>&1 || apt-get install update-notifier-common >/dev/null
+  dpkg -s debian-keyring >/dev/null 2>&1 || apt-get install -y debian-keyring>/dev/null
+  dpkg -s debian-archive-keyring >/dev/null 2>&1 || apt-get install -y debian-archive-keyring >/dev/null
 fi
 
 # useful packages
@@ -210,8 +209,12 @@ fi
 echo
 read -p "Clean up MOTD and add a banner? [Y/n] " -s -n 1 -r; echo
 if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
-  [ "$DISTRO" == "ubuntu" ] && curl -s https://raw.githubusercontent.com/epistrephein/serverscripts/master/motd_ubuntu.sh | bash 1>/dev/null
-  [ "$DISTRO" == "debian" ] && curl -s https://raw.githubusercontent.com/epistrephein/serverscripts/master/motd_debian.sh | bash 1>/dev/null
+  if [ "$DISTRO" == "debian" ]; then
+    dpkg -s update-notifier-common >/dev/null 2>&1 || apt-get install -y update-notifier-common >/dev/null
+    curl -s https://raw.githubusercontent.com/epistrephein/serverscripts/master/motd_debian.sh | bash 1>/dev/null
+  elif [ "$DISTRO" == "ubuntu" ]; then
+    curl -s https://raw.githubusercontent.com/epistrephein/serverscripts/master/motd_ubuntu.sh | bash 1>/dev/null
+  fi
   read -p "Customize the banner now? [y/N] " -s -n 1 -r; echo
   if [[ $REPLY =~ ^[Yy]$ ]]; then
     vim /etc/update-motd.d/20-banner
