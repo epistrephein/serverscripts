@@ -20,3 +20,5 @@ printf "  Memory usage:\t%s\t\tProcesses:\t%s\n" $memory_usage $processes
 printf "  Usage of /:\t%s\t\tSwap usage:\t%s\n" $root_usage $swap_usage
 printf "  Users logged:\t%s\t\tIP address:\t%s\n" $users $ip
 echo
+/usr/lib/update-notifier/apt-check --human-readable
+echo

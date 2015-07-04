@@ -39,7 +39,7 @@ if [ ! -f /etc/update-motd.d/90-footer ]; then
 fi
 
 [ -f /etc/motd ] && rm /etc/motd
-[ -f /var/run/motd.dynamic ] && rm /var/run/motd.dynamic
+rm -f /var/run/motd.dynamic
 ln -s /var/run/motd /etc/motd
 
 # autoremove script
