@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Initial server setup script for Ubuntu
+# Initial server setup script for Debian
 # based on Digital Ocean's setup tutorials
 # converted to bash script by Tommaso Barbato (@epistrephein)
 # https://github.com/epistrephein/serverscripts
@@ -8,12 +8,12 @@
 # be careful with what you execute in your shell!
 # double check this script to make sure you understand what it does
 #
-# usage: wget -q https://raw.githubusercontent.com/epistrephein/serverscripts/master/ubuntuserver-setup.sh; bash ubuntuserver-setup.sh
-# short: wget -q git.io/ubuntuserver; bash ubuntuserver
+# usage: wget -q https://raw.githubusercontent.com/epistrephein/serverscripts/master/debianserver-setup.sh; bash debianserver-setup.sh
+# short: wget -q git.io/debianserver; bash debianserver
 
 # check if Ubuntu
-if [[ "$(python -mplatform)" !=  *"Ubuntu-14"* ]] && [[ "$(python -mplatform)" !=  *"Ubuntu-12"* ]]; then
-  { echo "This script requires Ubuntu." >&2; }
+if [[ "$(python -mplatform)" !=  *"debian-7"* ]] && [[ "$(python -mplatform)" !=  *"debian-8"* ]]; then
+  { echo "This script requires Debian." >&2; }
   [ -f $0 ] && rm -- "$0"
   exit 1
 fi
@@ -40,6 +40,9 @@ hash sudo 2>/dev/null || apt-get install -y sudo >/dev/null
 hash curl 2>/dev/null || apt-get install -y curl >/dev/null
 hash wget 2>/dev/null || apt-get install -y wget >/dev/null
 hash vim 2>/dev/null || { apt-get install -y vim >/dev/null; rm /usr/bin/vi; ln -s /usr/bin/vim /usr/bin/vi; }
+dpkg -s debian-keyring >/dev/null 2>&1 || apt-get install debian-keyring>/dev/null
+dpkg -s debian-archive-keyring >/dev/null 2>&1 || apt-get install debian-archive-keyring >/dev/null
+dpkg -s update-notifier-common >/dev/null 2>&1 || apt-get install update-notifier-common >/dev/null
 
 # useful packages
 hash htop 2>/dev/null || apt-get install -y htop >/dev/null
@@ -123,7 +126,6 @@ if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
     fi
   done
   [ ! -z "$SSHPORT" ] && ufw allow $SSHPORT/tcp >/dev/null || ufw allow $(grep Port /etc/ssh/sshd_config | head -1 | cut -c 6-)/tcp >/dev/null
-  ufw show added | tail -n +2
   echo "Starting ufw... "; echo y | ufw enable >/dev/null
   echo "Done."
 fi
@@ -200,7 +202,7 @@ fi
 echo
 read -p "Clean up MOTD and add a banner? [Y/n] " -s -n 1 -r; echo
 if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
-  curl -s https://raw.githubusercontent.com/epistrephein/serverscripts/master/motd_ubuntu.sh | bash 1>/dev/null
+  curl -s https://raw.githubusercontent.com/epistrephein/serverscripts/master/motd_debian.sh | bash 1>/dev/null
   read -p "Customize the banner now? [y/N] " -s -n 1 -r; echo
   if [[ $REPLY =~ ^[Yy]$ ]]; then
     vim /etc/update-motd.d/20-banner
