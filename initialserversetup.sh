@@ -42,6 +42,7 @@ hash wget 2>/dev/null || apt-get install -y wget >/dev/null
 hash vim 2>/dev/null || { apt-get install -y vim >/dev/null; rm /usr/bin/vi; ln -s /usr/bin/vim /usr/bin/vi; }
 
 # useful packages
+hash htop 2>/dev/null || apt-get install -y htop >/dev/null
 hash autojump 2>/dev/null || apt-get install -y autojump >/dev/null
 
 echo "Done."
@@ -182,7 +183,7 @@ echo
 echo "==== Configuring system ===="
 
 # set vim as default editor
-update-alternatives --set editor /usr/bin/vim.basic
+update-alternatives --set editor /usr/bin/vim.basic >/dev/null
 
 # dotfiles
 read -p "Apply basic dotfiles? [Y/n] " -s -n 1 -r; echo
