@@ -207,7 +207,9 @@ if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
   echo "Done."
 fi
 
-export $NEWUSER
+if [ ! -z "$NEWUSER" ]; then
+  export $NEWUSER
+fi
 
 echo
 echo "All done. Bye!"
