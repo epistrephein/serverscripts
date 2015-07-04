@@ -1,0 +1,12 @@
+#!/bin/sh
+#
+# 10-header - MOTD header
+
+if [ -z "$DISTRIB_DESCRIPTION" ] && [ -x /usr/bin/lsb_release ]; then
+  DISTRIB_DESCRIPTION="$(lsb_release -s -i) $(lsb_release -s -r)"
+  KERNEL_DESCRIPTION="$(uname -o) $(uname -r) $(uname -m)"
+fi
+
+printf "Welcome to %s (%s)\n" "$DISTRIB_DESCRIPTION" "$KERNEL_DESCRIPTION"
+printf "\n"
+

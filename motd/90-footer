@@ -1,0 +1,6 @@
+#!/bin/sh
+#
+# 90-footer - MOTD footer
+
+[ -f /etc/motd.tail ] && cat /etc/motd.tail || true
+

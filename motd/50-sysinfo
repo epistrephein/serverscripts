@@ -1,0 +1,7 @@
+#!/bin/sh
+#
+# 50-sysinfo - MOTD landscape clone sysinfo
+
+python /etc/update-motd.d/landscape-sysinfo.py
+printf "\n"
+
