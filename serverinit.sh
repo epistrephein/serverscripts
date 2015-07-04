@@ -1,15 +1,17 @@
 #!/usr/bin/env bash
 
 # Initial server setup script for Ubuntu and Debian
-# based on Digital Ocean's setup tutorials
+# based on Digital Ocean's setup tutorials 
 # converted to bash script by Tommaso Barbato (@epistrephein)
 # https://github.com/epistrephein/serverscripts
-#
+
 # be careful with what you execute in your shell!
-# double check this script to make sure you understand what it does
-#
-# usage: wget -q https://raw.githubusercontent.com/epistrephein/serverscripts/master/ubuntuserver-setup.sh; bash ubuntuserver-setup.sh
-# short: wget -q git.io/ubuntuserver; bash ubuntuserver
+# double check this script to make sure it does what you expect
+
+# -------------------------------------------------
+# usage: wget -q git.io/serverinit; bash serverinit
+# -------------------------------------------------
+
 
 # check if Ubuntu/Debian
 if [[ "$(python -mplatform)" !=  *"Ubuntu-14"* ]] && [[ "$(python -mplatform)" !=  *"Ubuntu-12"* ]] && [[ "$(python -mplatform)" !=  *"debian-7"* ]] && [[ "$(python -mplatform)" !=  *"debian-8"* ]]; then
