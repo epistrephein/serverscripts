@@ -1,7 +1,22 @@
 #!/bin/sh
 #
-# 50-sysinfo - MOTD landscape clone sysinfo
+# 50-sysinfo - MOTD landscape sysinfo clone
 
-python /etc/update-motd.d/landscape-sysinfo.py
-printf "\n"
+date=`date`
+load=`cat /proc/loadavg | awk '{print $1}'`
+root_usage=`df -h / | awk '/\// {print $(NF-1)}'`
+memory_usage=`free -m | awk '/Mem:/ { total=$2 } /buffers\/cache/ { used=$3 } END { printf("%3.1f%%", used/total*100)}'`
+swap_usage=`free -m | awk '/Swap/ { printf("%3.1f%%", "exit !$2;$3/$2*100") }'`
+users=`users | wc -w`
+time=`uptime | grep -ohe 'up .*' | sed 's/,/\ hours/g' | awk '{ printf $2" "$3 }'`
+processes=`ps aux | wc -l`
+ip=`ifconfig $(route | grep default | awk '{ print $8 }') | grep "inet addr" | awk -F: '{print $2}' | awk '{print $1}'`
 
+echo
+echo "  System information as of: $date"
+echo
+printf "  System load:\t%s\t\tSystem uptime:\t%s\n" $load "$time"
+printf "  Memory usage:\t%s\t\tProcesses:\t%s\n" $memory_usage $processes
+printf "  Usage of /:\t%s\t\tSwap usage:\t%s\n" $root_usage $swap_usage
+printf "  Users logged:\t%s\t\tIP Address:\t%s\n" $users $ip
+echo
