@@ -18,5 +18,5 @@ echo
 printf "  System load:\t%s\t\tSystem uptime:\t%s\n" $load "$time"
 printf "  Memory usage:\t%s\t\tProcesses:\t%s\n" $memory_usage $processes
 printf "  Usage of /:\t%s\t\tSwap usage:\t%s\n" $root_usage $swap_usage
-printf "  Users logged:\t%s\t\tIP Address:\t%s\n" $users $ip
+printf "  Users logged:\t%s\t\tIP address:\t%s\n" $users $ip
 echo
