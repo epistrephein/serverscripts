@@ -189,6 +189,8 @@ read -p "Apply basic dotfiles? [Y/n] " -s -n 1 -r; echo
 if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
   if [ ! -z "$NEWUSER" ]; then
     su $NEWUSER -c "curl -s https://raw.githubusercontent.com/epistrephein/serverscripts/master/dotfiles.sh | bash 1>/dev/null"
+  else
+    curl -s https://raw.githubusercontent.com/epistrephein/serverscripts/master/dotfiles.sh | bash 1>/dev/null
   fi
   echo "Done."
 fi
@@ -205,6 +207,7 @@ if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
   echo "Done."
 fi
 
+export $NEWUSER
 
 echo
 echo "All done. Bye!"
