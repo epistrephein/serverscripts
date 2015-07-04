@@ -29,3 +29,6 @@ alias e="vim"
 # autojump
 [[ -e /usr/share/autojump/autojump.sh ]] && source /usr/share/autojump/autojump.sh
 export AUTOJUMP_IGNORE_CASE=1
+
+# grep
+export GREP_OPTIONS='--color=auto'
