@@ -33,16 +33,16 @@ echo
 
 ## update packages
 echo "Updating packages index..."
-apt-get update > /dev/null
+apt-get update >/dev/null
 
 # essentials packages
-hash sudo 2>/dev/null || apt-get install -y sudo > /dev/null
-hash curl 2>/dev/null || apt-get install -y curl > /dev/null
-hash wget 2>/dev/null || apt-get install -y wget > /dev/null
-hash vim 2>/dev/null || { apt-get install -y vim > /dev/null; rm /usr/bin/vi; ln -s /usr/bin/vim /usr/bin/vi; }
+hash sudo 2>/dev/null || apt-get install -y sudo >/dev/null
+hash curl 2>/dev/null || apt-get install -y curl >/dev/null
+hash wget 2>/dev/null || apt-get install -y wget >/dev/null
+hash vim 2>/dev/null || { apt-get install -y vim >/dev/null; rm /usr/bin/vi; ln -s /usr/bin/vim /usr/bin/vi; }
 
 # useful packages
-hash autojump 2>/dev/null || apt-get install -y autojump > /dev/null
+hash autojump 2>/dev/null || apt-get install -y autojump >/dev/null
 
 echo "Done."
 
@@ -55,7 +55,7 @@ echo "==== Configuring users ===="
 read -p "Create new user? [Y/n] " -s -n 1 -r; echo
 if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
   read -p "Enter new user: " NEWUSER
-  echo "Creating user $NEWUSER with no password"
+  echo "Creating user $NEWUSER without password"
   adduser --gecos "" --disabled-password --quiet $NEWUSER
   gpasswd -a $NEWUSER sudo
 
@@ -102,7 +102,7 @@ fi
 
 if [ $SSHRESTART == 1 ]; then
   echo "Restarting ssh service..."
-  service ssh restart > /dev/null
+  service ssh restart >/dev/null
   echo "Done."
 fi
 
@@ -110,20 +110,20 @@ fi
 echo
 read -p "Enable ufw? [Y/n] " -s -n 1 -r; echo
 if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
-  hash ufw 2>/dev/null || { echo "Installing ufw..."; apt-get install -y ufw > /dev/null; }
+  hash ufw 2>/dev/null || { echo "Installing ufw..."; apt-get install -y ufw >/dev/null; }
   printf "Insert ports to allow (separated by space): "; read -a ALLOWEDPORTS
   VALIDINPUT='^[0-9]+$'
   for p in ${ALLOWEDPORTS[@]}
   do
     if [[ $p =~ $VALIDINPUT ]]; then
-      ufw allow $p/tcp > /dev/null
+      ufw allow $p/tcp >/dev/null
     else
       echo "$p is not a valid port number, skipping"
     fi
   done
-  [ ! -z "$SSHPORT" ] && ufw allow $SSHPORT/tcp > /dev/null || ufw allow $(grep Port /etc/ssh/sshd_config | head -1 | cut -c 6-)/tcp > /dev/null
+  [ ! -z "$SSHPORT" ] && ufw allow $SSHPORT/tcp >/dev/null || ufw allow $(grep Port /etc/ssh/sshd_config | head -1 | cut -c 6-)/tcp >/dev/null
   ufw show added | tail -n +2
-  echo "Starting ufw... "; echo y | ufw enable > /dev/null
+  echo "Starting ufw... "; echo y | ufw enable >/dev/null
   echo "Done."
 fi
 
@@ -131,12 +131,12 @@ fi
 echo
 read -p "Enable fail2ban? [Y/n] " -s -n 1 -r; echo
 if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
-  hash fail2ban 2>/dev/null || { echo "Installing fail2ban..."; apt-get install -y fail2ban > /dev/null; }
+  hash fail2ban 2>/dev/null || { echo "Installing fail2ban..."; apt-get install -y fail2ban >/dev/null; }
   echo "Applying basic fail2ban configuration..."
   cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local
   sed -i 's/bantime *= *600/bantime = 1800/g' /etc/fail2ban/jail.local
   echo "Starting fail2ban..."
-  service fail2ban restart > /dev/null
+  service fail2ban restart >/dev/null
   echo "Done."
 fi
 
@@ -150,7 +150,7 @@ read -p "Reconfigure timezone [Y/n] " -s -n 1 -r; echo
 if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
   dpkg-reconfigure tzdata
   echo "Installing NTP..."
-  apt-get install -y ntp > /dev/null
+  apt-get install -y ntp >/dev/null
   echo "Done."
 fi
 
