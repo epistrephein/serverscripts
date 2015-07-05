@@ -13,6 +13,16 @@
 # -------------------------------------------------
 
 
+# if interrupted, remove script file
+trap cleanup SIGINT
+function cleanup() {
+  [ -f $0 ] && rm -- "$0"
+  stty echo
+  echo
+  echo "Aborted."
+  exit 1
+}
+
 # check if Ubuntu/Debian
 if [[ "$(python -mplatform)" !=  *"Ubuntu-14"* ]] && [[ "$(python -mplatform)" !=  *"Ubuntu-12"* ]] && [[ "$(python -mplatform)" !=  *"debian-7"* ]] && [[ "$(python -mplatform)" !=  *"debian-8"* ]]; then
   { echo "This script requires Ubuntu or Debian." >&2; }
