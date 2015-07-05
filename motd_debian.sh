@@ -40,6 +40,7 @@ fi
 
 [ -f /etc/motd ] && rm /etc/motd
 rm -f /var/run/motd.dynamic
+sed -i 's|uname -snrvm > /var/run/motd.dynamic|> /var/run/motd.dynamic|' /etc/init.d/motd
 ln -s /var/run/motd /etc/motd
 
 # autoremove script
