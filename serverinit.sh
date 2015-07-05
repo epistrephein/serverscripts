@@ -213,7 +213,7 @@ if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
   if [ "$DISTRO" == "debian" ]; then
     curl -s https://raw.githubusercontent.com/epistrephein/serverscripts/master/motd_debian.sh | bash 1>/dev/null
     if [[ "$(python -mplatform)" ==  *"debian-7"* ]]; then
-      dpkg -s update-notifier-common >/dev/null 2>&1 || apt-get install -y update-notifier-common >/dev/null#statements
+      dpkg -s update-notifier-common >/dev/null 2>&1 || apt-get install -y update-notifier-common >/dev/null
     elif [[ "$(python -mplatform)" ==  *"debian-8"* ]]; then
       sed -i '$ d' /etc/update-motd.d/50-sysinfo
       sed -i '$ d' /etc/update-motd.d/50-sysinfo
