@@ -142,8 +142,16 @@ if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
       echo "$p is not a valid port number, skipping"
     fi
   done
-  [ ! -z "$SSHPORT" ] && ufw allow $SSHPORT/tcp >/dev/null || ufw allow $(grep Port /etc/ssh/sshd_config | head -1 | cut -c 6-)/tcp >/dev/null
-  [ "$DISTRO" == "ubuntu" ] && ufw show added | tail -n +2
+
+  SSHDCONFIGPORT=$(grep --color=never Port /etc/ssh/sshd_config | head -1 | cut -c 6-)
+
+  if [ ! -z "$SSHPORT" ] && ! [[ " ${ALLOWEDPORTS[@]} " =~ " ${SSHPORT} " ]]; then
+    ufw allow $SSHPORT/tcp >/dev/null
+    echo "Allow port: $SSHPORT (auto-added)"
+  elif [ -z "$SSHPORT" ] && ! [[ " ${ALLOWEDPORTS[@]} " =~ " ${SSHDCONFIGPORT} " ]]; then
+    ufw allow $SSHDCONFIGPORT/tcp >/dev/null
+    echo "Allow port: $SSHDCONFIGPORT (auto-added)" 
+  fi
   echo "Starting ufw... "; echo y | ufw enable >/dev/null
   echo "Done."
 fi
