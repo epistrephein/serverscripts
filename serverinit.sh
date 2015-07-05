@@ -211,8 +211,13 @@ echo
 read -p "Clean up MOTD and add a banner? [Y/n] " -s -n 1 -r; echo
 if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
   if [ "$DISTRO" == "debian" ]; then
-    dpkg -s update-notifier-common >/dev/null 2>&1 || apt-get install -y update-notifier-common >/dev/null
     curl -s https://raw.githubusercontent.com/epistrephein/serverscripts/master/motd_debian.sh | bash 1>/dev/null
+    if [[ "$(python -mplatform)" ==  *"debian-7"* ]]; then
+      dpkg -s update-notifier-common >/dev/null 2>&1 || apt-get install -y update-notifier-common >/dev/null#statements
+    elif [[ "$(python -mplatform)" ==  *"debian-8"* ]]; then
+      sed -i '$ d' /etc/update-motd.d/50-sysinfo
+      sed -i '$ d' /etc/update-motd.d/50-sysinfo
+    fi
   elif [ "$DISTRO" == "ubuntu" ]; then
     curl -s https://raw.githubusercontent.com/epistrephein/serverscripts/master/motd_ubuntu.sh | bash 1>/dev/null
   fi
