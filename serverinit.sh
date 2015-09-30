@@ -88,7 +88,12 @@ if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
   SSHKEY=0
   until [ -z "$SSHKEY" ]; do
     read -p "Paste the SSH public key, empty to finish: " SSHKEY
-    echo "$SSHKEY" >> /home/$NEWUSER/.ssh/authorized_keys
+    if [ -z "$SSHKEY" ] && [ ! -s /home/$NEWUSER/.ssh/authorized_keys ]; then
+      echo "You haven't added any key. You can't skip this step, otherwise you won't be able to login."
+      SSHKEY=0
+    else
+      echo "$SSHKEY" >> /home/$NEWUSER/.ssh/authorized_keys
+    fi
   done
   echo "Done."
 fi
