@@ -49,7 +49,7 @@ echo
 echo "Updating packages index..."
 apt-get update >/dev/null
 
-# essentials packages
+# install essentials packages
 hash sudo 2>/dev/null || apt-get install -y sudo >/dev/null
 hash curl 2>/dev/null || apt-get install -y curl >/dev/null
 hash wget 2>/dev/null || apt-get install -y wget >/dev/null
@@ -60,7 +60,7 @@ if [ "$DISTRO" == "debian" ]; then
   dpkg -s debian-archive-keyring >/dev/null 2>&1 || apt-get install -y debian-archive-keyring >/dev/null
 fi
 
-# useful packages
+# install useful packages
 hash htop 2>/dev/null || apt-get install -y htop >/dev/null
 hash autojump 2>/dev/null || apt-get install -y autojump >/dev/null
 
@@ -71,7 +71,7 @@ echo "Done."
 echo
 echo "==== Configuring users ===="
 
-# create new sudo user
+# create new sudo user without password
 read -p "Create new user? [Y/n] " -s -n 1 -r; echo
 if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
   read -p "Enter new user: " NEWUSER
@@ -218,9 +218,8 @@ read -p "Apply basic dotfiles? [Y/n] " -s -n 1 -r; echo
 if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
   if [ ! -z "$NEWUSER" ]; then
     su $NEWUSER -c "curl -s https://raw.githubusercontent.com/epistrephein/serverscripts/master/dotfiles.sh | bash 1>/dev/null"
-  else
-    curl -s https://raw.githubusercontent.com/epistrephein/serverscripts/master/dotfiles.sh | bash 1>/dev/null
   fi
+    curl -s https://raw.githubusercontent.com/epistrephein/serverscripts/master/dotfiles.sh | bash 1>/dev/null
   echo "Done."
 fi
 
