@@ -9,7 +9,7 @@ Simply run this command from root:
 ## Features
 
 * Run `apt-get update`.
-* Install basic utilities (`sudo`, `curl`, `wget` and vim) and some extra packages (`htop`, autojump). On Debian, install also `debian-keyring` and `debian-archive-keyring`.
+* Install basic utilities (`sudo`, `curl`, `wget` and `vim`) and some extra packages (`htop`, `autojump`). On Debian, install also `debian-keyring` and `debian-archive-keyring`.
 * Create a new user without password and with sudo privileges. Requires one or more SSH public keys.
 * Change the default SSH port for extra safety.
 * Prevent root login and password authentication via SSH.
