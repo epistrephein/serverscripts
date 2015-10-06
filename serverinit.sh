@@ -29,7 +29,6 @@ if [[ "$(python -mplatform)" !=  *"Ubuntu-14"* ]] && [[ "$(python -mplatform)" !
   [ -f $0 ] && rm -- "$0"
   exit 1
 fi
-
 DISTRO=$(python -mplatform | grep -io --color=never 'debian\|ubuntu' | tr '[:upper:]' '[:lower:]')
 
 # check if root
@@ -81,7 +80,7 @@ if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
 
   echo "$NEWUSER ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
-  # ssh key authentication
+  # add ssh public key authentication
   echo
   su $NEWUSER -c "cd; mkdir .ssh; chmod 700 .ssh; touch .ssh/authorized_keys; chmod 600 .ssh/authorized_keys"
 
@@ -118,7 +117,7 @@ fi
 
 # change ssh login policy
 echo
-read -p "Prevent root login? [Y/n] " -s -n 1 -r; echo
+read -p "Prevent root login and disable password authentication? [Y/n] " -s -n 1 -r; echo
 if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
   sed -i -e '/^PermitRootLogin/s/^.*$/PermitRootLogin no/' /etc/ssh/sshd_config
   sed -i -e '/^#PasswordAuthentication/s/^.*$/PasswordAuthentication no/' /etc/ssh/sshd_config
@@ -211,9 +210,9 @@ if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
 fi
 
 
-## system options
+## preferences
 echo
-echo "==== Configuring system ===="
+echo "==== Configuring preferences ===="
 
 # set vim as default editor
 update-alternatives --set editor /usr/bin/vim.basic >/dev/null
@@ -246,6 +245,8 @@ if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
   read -p "Customize the banner now? [y/N] " -s -n 1 -r; echo
   if [[ $REPLY =~ ^[Yy]$ ]]; then
     vim /etc/update-motd.d/20-banner
+  else
+    echo "You can change the banner later by editing the file /etc/update-motd.d/20-banner."
   fi
   echo "Done."
 fi
