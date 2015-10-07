@@ -35,30 +35,36 @@ fi
 if $(hash nginx 2>/dev/null); then
   echo "nginx is already installed, skipping..."
 else
-  PS3='Choose your nginx flavor: '
-  options=("core" "light" "full" "extras")
+  echo "Choose your nginx flavor."
+  echo
+  PS3='Make a selection: '
+  options=("nginx-core" "nginx-light" "nginx-full" "nginx-extras")
   select opt in "${options[@]}"
   do
     case $opt in
-      "core")
+      "nginx-core")
         echo "Installing nginx-core..."
         apt-get install -y nginx-core > /dev/null
         break
+        echo "Done."
         ;;
-      "light")
+      "nginx-light")
         echo "Installing nginx-light..."
         apt-get install -y nginx-light > /dev/null
         break
+        echo "Done."
         ;;
-      "full")
+      "nginx-full")
         echo "Installing nginx-full..."
         apt-get install -y nginx-full > /dev/null
         break
+        echo "Done."
         ;;
-      "extras")
+      "nginx-extras")
         echo "Installing nginx-extras..."
         apt-get install -y nginx-extras  > /dev/null
         break
+        echo "Done."
         ;;
       *) echo invalid option;;
     esac
@@ -71,7 +77,7 @@ read -p "Create nginx root folder? [Y/n] " -s -n 1 -r; echo
 if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
   read -p "Enter root folder name: " NGINXROOTFOLDER
 
-  # this variable should exist if the script is called from serverinit
+  # this variable should exist if the script is called from serverinit.sh
   if [ -z $NEWUSER ]; then
     read -p "Which user do you want to own the folder? " CHOWNUSER
     # validate the user
@@ -91,32 +97,19 @@ fi
 echo
 read -p "Replace default server settings? [Y/n] " -s -n 1 -r; echo
 if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
-  cat << EOF >> /etc/nginx/sites-available/$NGINXROOTFOLDER
-server {
-    listen 80 default_server;
-    listen [::]:80 default_server ipv6only=on;
-
-    root /var/www/$NGINXROOTFOLDER/html;
-    index index.html index.htm;
-
-    server_name $NGINXROOTFOLDER;
-
-    access_log  /var/log/nginx/$NGINXROOTFOLDER.access.log;
-    error_log   /var/log/nginx/$NGINXROOTFOLDER.error.log;
-
-    location / {
-        try_files $uri $uri/ =404;
-    }
-}
-  EOF
+  wget -q https://raw.githubusercontent.com/epistrephein/serverscripts/master/nginx/default-nginx-settings -O /etc/nginx/sites-available/$NGINXROOTFOLDER
+  sed -i 's/NGINXROOTFOLDER/'"$NGINXROOTFOLDER"'/g' /etc/nginx/sites-available/$NGINXROOTFOLDER
 
   echo "Created virtual host /etc/nginx/sites-available/$NGINXROOTFOLDER"
 
   ln -s /etc/nginx/sites-available/$NGINXROOTFOLDER /etc/nginx/sites-enabled/
   rm /etc/nginx/sites-enabled/default
 
-  # can also be /usr/share/nginx/www/index.html
-  cp /usr/share/nginx/html/index.html /var/www/$NGINXROOTFOLDER/html/index.html
+  if [ -f /usr/share/nginx/html/index.html ]; then
+    cp /usr/share/nginx/html/index.html /var/www/$NGINXROOTFOLDER/html/index.html
+  elif [ -f /usr/share/nginx/www/index.html ]; then
+    cp /usr/share/nginx/www/index.html /var/www/$NGINXROOTFOLDER/html/index.html
+  fi
 fi
 
 echo "Restarting nginx..."
