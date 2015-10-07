@@ -24,12 +24,12 @@ if $(hash httpd 2>/dev/null) || $(hash apache 2>/dev/null) || $(hash apache2 2>/
   read -p "Apache is installed. Remove it? [Y/n] " -s -n 1 -r; echo
   if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
     echo "Purging Apache..."
+    echo
     service apache2 stop >/dev/null 2>&1
     apt-get purge -y apache2* >/dev/null 2>&1
     if [ $(ls -1 /var/www/html/ | wc -l) == 1 ] && [ -f /var/www/html/index.html ]; then
       rm -rf /var/www/html
     fi
-    echo "Done."
   fi
 fi
 
@@ -80,17 +80,11 @@ echo
 read -p "Create nginx root folder? [Y/n] " -s -n 1 -r; echo
 if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
   read -p "Enter root folder name: " NGINXROOTFOLDER
-
-  # this variable should exist if the script is called from serverinit.sh
-  if [ -z $NEWUSER ]; then
-    read -p "Which user do you want to own the folder? " CHOWNUSER
-    # validate the user
-    while ! id -u "$CHOWNUSER" >/dev/null 2>&1; do
-      read -p "No such user. Please enter a valid user of this system: " CHOWNUSER
-    done
-  else
-    CHOWNUSER=$NEWUSER
-  fi
+  read -p "Which user do you want to own the folder? " CHOWNUSER
+  # validate the user
+  while ! id -u "$CHOWNUSER" >/dev/null 2>&1; do
+    read -p "No such user. Please enter a valid user of this system: " CHOWNUSER
+  done
 
   mkdir -p /var/www/$NGINXROOTFOLDER/html
   chown -R $CHOWNUSER:$CHOWNUSER /var/www/$NGINXROOTFOLDER/html

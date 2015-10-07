@@ -250,10 +250,6 @@ if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
 fi
 
 
-if [ ! -z "$NEWUSER" ]; then
-  export $NEWUSER
-fi
-
 ## additional services
 echo
 echo "==== Configure additional services ===="
