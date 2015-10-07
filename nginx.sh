@@ -121,7 +121,5 @@ fi
 echo "Restarting nginx..."
 service nginx restart >/dev/null
 
-echo "Done."
-
 # autoremove script
 [ -f $0 ] && rm -- "$0"

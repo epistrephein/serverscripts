@@ -249,9 +249,22 @@ if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
   echo "Done."
 fi
 
+
 if [ ! -z "$NEWUSER" ]; then
   export $NEWUSER
 fi
+
+## additional services
+echo
+echo "==== Configure additional services ===="
+
+# install nginx
+read -p "Install and configure nginx? [Y/n] " -s -n 1 -r; echo
+if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
+  wget -q https://raw.githubusercontent.com/epistrephein/serverscripts/master/nginx.sh; bash nginx.sh
+  echo "Done."
+fi
+
 
 echo
 echo "All done. Bye!"
