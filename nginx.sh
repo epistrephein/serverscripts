@@ -9,7 +9,6 @@ function cleanup() {
   [ -f $0 ] && rm -- "$0"
   stty echo
   echo
-  echo "Aborted."
   exit 1
 }
 
@@ -26,7 +25,7 @@ if $(hash httpd 2>/dev/null) || $(hash apache 2>/dev/null) || $(hash apache2 2>/
   if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
     echo "Purging Apache..."
     service apache2 stop >/dev/null 2>&1
-    apt-get purge -y apache2* >/dev/null
+    apt-get purge -y apache2* >/dev/null 2>&1
     if [ $(ls -1 /var/www/html/ | wc -l) == 1 ] && [ -f /var/www/html/index.html ]; then
       rm -rf /var/www/html
     fi
@@ -41,7 +40,7 @@ if $(hash nginx 2>/dev/null); then
 else
   echo "Choose your nginx flavor."
   PS3="
-  Make a selection: "
+Make a selection: "
   options=("nginx-core" "nginx-light" "nginx-full" "nginx-extras")
   select opt in "${options[@]}"
   do
