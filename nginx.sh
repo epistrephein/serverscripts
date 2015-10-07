@@ -36,11 +36,12 @@ fi
 
 # choose between nginx flavors and install
 if $(hash nginx 2>/dev/null); then
-  echo "nginx is already installed, skipping..."
+  echo "nginx is already installed, quitting..."
+  exit 1
 else
   echo "Choose your nginx flavor."
-  echo
-  PS3='Make a selection: '
+  PS3="
+  Make a selection: "
   options=("nginx-core" "nginx-light" "nginx-full" "nginx-extras")
   select opt in "${options[@]}"
   do
@@ -69,7 +70,7 @@ else
         echo "Done."
         break
         ;;
-      *) echo invalid option;;
+      *) echo "Invalid option";;
     esac
   done
 fi
