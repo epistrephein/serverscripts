@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 
 # Initial server setup script for Ubuntu and Debian
-# based on Digital Ocean's setup tutorials 
-# converted to bash script by Tommaso Barbato (@epistrephein)
 # https://github.com/epistrephein/serverscripts
 
 # be careful with what you execute in your shell!

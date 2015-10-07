@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# MOTD changer script for Ubuntu
+
+
 # check if Ubuntu
 if [[ "$(python -mplatform)" !=  *"Ubuntu"* ]]; then
   { echo "This script requires Ubuntu." >&2; }

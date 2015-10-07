@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# MOTD changer script for Debian
+
+
 # check if Debian
 if [[ "$(python -mplatform)" !=  *"debian"* ]]; then
   { echo "This script requires Debian." >&2; }

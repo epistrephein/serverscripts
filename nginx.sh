@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# nginx bootstrap install script
+
+
 # if interrupted, remove script file
 trap cleanup SIGINT
 function cleanup() {
@@ -45,26 +48,26 @@ else
       "nginx-core")
         echo "Installing nginx-core..."
         apt-get install -y nginx-core > /dev/null
-        break
         echo "Done."
+        break
         ;;
       "nginx-light")
         echo "Installing nginx-light..."
         apt-get install -y nginx-light > /dev/null
-        break
         echo "Done."
+        break
         ;;
       "nginx-full")
         echo "Installing nginx-full..."
         apt-get install -y nginx-full > /dev/null
-        break
         echo "Done."
+        break
         ;;
       "nginx-extras")
         echo "Installing nginx-extras..."
         apt-get install -y nginx-extras  > /dev/null
-        break
         echo "Done."
+        break
         ;;
       *) echo invalid option;;
     esac
@@ -72,6 +75,7 @@ else
 fi
 
 
+# website folder in /var/www
 echo
 read -p "Create nginx root folder? [Y/n] " -s -n 1 -r; echo
 if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
@@ -94,6 +98,8 @@ if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
   echo "Done."
 fi
 
+
+# basic server settings
 echo
 read -p "Replace default server settings? [Y/n] " -s -n 1 -r; echo
 if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
