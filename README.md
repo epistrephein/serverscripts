@@ -4,7 +4,7 @@ Quickly bootstrap a barebone Ubuntu or Debian server.
 ## Usage
 Simply run this command from root:
 
-    # wget -q git.io/serverinit; bash serverinit
+    wget -q git.io/serverinit; bash serverinit
 
 ## Features
 
@@ -19,6 +19,7 @@ Simply run this command from root:
 * Add a swap file.
 * Apply some basic dotfiles (specifically `.bashrc`, `.inputrc`, `.vimrc` and a vim theme).
 * Cleanup the MOTD and add a customizable banner for ASCII art.
+* Install additional services and utilities.
 
 ## Errors
 Here are some common errors (with solutions) you may encounter on new servers.
