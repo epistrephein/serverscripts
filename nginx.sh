@@ -35,8 +35,7 @@ fi
 
 # choose between nginx flavors and install
 if $(hash nginx 2>/dev/null); then
-  echo "nginx is already installed, quitting..."
-  exit 1
+  echo "nginx is already installed, skipping..."
 else
   echo "Choose your nginx flavor."
   PS3="
@@ -74,7 +73,6 @@ Make a selection: "
   done
 fi
 
-
 # website folder in /var/www
 echo
 read -p "Create nginx root folder? [Y/n] " -s -n 1 -r; echo
@@ -92,7 +90,6 @@ if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
   echo "Done."
 fi
 
-
 # basic server settings
 echo
 read -p "Replace default server settings? [Y/n] " -s -n 1 -r; echo
@@ -103,7 +100,9 @@ if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
   echo "Created virtual host /etc/nginx/sites-available/$NGINXROOTFOLDER"
 
   ln -s /etc/nginx/sites-available/$NGINXROOTFOLDER /etc/nginx/sites-enabled/
-  rm /etc/nginx/sites-enabled/default
+  if [ -f /etc/nginx/sites-enabled/default ]; then
+    rm /etc/nginx/sites-enabled/default
+  fi
 
   if [ -f /usr/share/nginx/html/index.html ]; then
     cp /usr/share/nginx/html/index.html /var/www/$NGINXROOTFOLDER/html/index.html
