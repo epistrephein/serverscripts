@@ -2,10 +2,10 @@ server {
     listen 80 default_server;
     listen [::]:80 default_server ipv6only=on;
 
+    server_name NGINXROOTFOLDER;
+
     root /var/www/NGINXROOTFOLDER/html;
     index index.html index.htm;
-
-    server_name NGINXROOTFOLDER;
 
     access_log  /var/log/nginx/NGINXROOTFOLDER.access.log;
     error_log   /var/log/nginx/NGINXROOTFOLDER.error.log;

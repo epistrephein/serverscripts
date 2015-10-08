@@ -97,12 +97,12 @@ if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
   wget -q https://raw.githubusercontent.com/epistrephein/serverscripts/master/nginx/default-nginx-settings -O /etc/nginx/sites-available/$NGINXROOTFOLDER
   sed -i 's/NGINXROOTFOLDER/'"$NGINXROOTFOLDER"'/g' /etc/nginx/sites-available/$NGINXROOTFOLDER
 
-  echo "Created virtual host /etc/nginx/sites-available/$NGINXROOTFOLDER"
-
   ln -s /etc/nginx/sites-available/$NGINXROOTFOLDER /etc/nginx/sites-enabled/
   if [ -f /etc/nginx/sites-enabled/default ]; then
     rm /etc/nginx/sites-enabled/default
   fi
+
+  echo "Created and enabled virtual host /etc/nginx/sites-available/$NGINXROOTFOLDER"
 
   if [ -f /usr/share/nginx/html/index.html ]; then
     cp /usr/share/nginx/html/index.html /var/www/$NGINXROOTFOLDER/html/index.html

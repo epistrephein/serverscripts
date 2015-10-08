@@ -11,9 +11,8 @@ users=`users | wc -w`
 time=`uptime | grep -ohe 'up .*' | sed 's/,/\ hours/g' | awk '{ printf $2" "$3 }'`
 processes=`ps aux | wc -l`
 ip=`ifconfig $(route | grep default | awk '{ print $8 }') | grep "inet addr" | awk -F: '{print $2}' | awk '{print $1}'`
-
-# use $remip instead of $ip if the network interface is unreachable (requires dnsutils on Debian)
 # remip=`dig +short myip.opendns.com @resolver1.opendns.com`
+# use $remip instead of $ip if the network interface is unreachable (requires dnsutils on Debian)
 
 echo
 echo "  System information as of: $date"
@@ -21,7 +20,7 @@ echo
 printf "  System load:\t%s\t\tSystem uptime:\t%s\n" $load "$time"
 printf "  Memory usage:\t%s\t\tProcesses:\t%s\n" $memory_usage $processes
 printf "  Usage of /:\t%s\t\tSwap usage:\t%s\n" $root_usage $swap_usage
-printf "  Users logged:\t%s\t\tIP address:\t%s\n" $users $ip
+printf "  Users logged:\t%s\t\tIP address:\t%s\n" $users $ip #$remip
 echo
 /usr/lib/update-notifier/apt-check --human-readable
 echo
