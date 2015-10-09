@@ -3,5 +3,5 @@
 # 20-banner - MOTD ascii art banner
 
 cat << 'EOF'
-# add ASCII art here
+
 EOF
