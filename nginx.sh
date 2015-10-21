@@ -46,7 +46,7 @@ Make a selection: "
     case $opt in
       "nginx-core")
         echo "Installing nginx-core..."
-        apt-get install -y nginx-core > /dev/null
+        apt-get install -y nginx > /dev/null
         echo "Done."
         break
         ;;
