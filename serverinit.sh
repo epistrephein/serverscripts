@@ -48,17 +48,16 @@ apt-get update >/dev/null
 
 # regenerate SSH keys
 echo
-read -p "Regenerate SSH host keys? [Y/n] " -s -n 1 -r; echo
-if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
+read -p "Regenerate SSH host keys? [y/N] " -s -n 1 -r; echo
+if [[ $REPLY =~ ^[Yy]$ ]]; then
   rm -r /etc/ssh/ssh*key
   dpkg-reconfigure openssh-server
   echo "Done."
 fi
 
 # define en_US.UTF-8 locale
-echo
-read -p "Set en_US utf8 locale? [Y/n] " -s -n 1 -r; echo
-if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
+read -p "Set en_US utf8 locale? [y/N] " -s -n 1 -r; echo
+if [[ $REPLY =~ ^[Yy]$ ]]; then
   localedef -i en_US -f UTF-8 en_US.UTF-8
   echo "Done."
 fi
@@ -247,6 +246,7 @@ if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
   echo "Done."
 fi
 
+echo
 read -p "Apply advanced vim configuration? [y/N] " -s -n 1 -r; echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
   if [ ! -z "$NEWUSER" ]; then
