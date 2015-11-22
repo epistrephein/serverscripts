@@ -47,6 +47,7 @@ echo "Updating packages index..."
 apt-get update >/dev/null
 
 # regenerate SSH keys
+echo
 read -p "Regenerate SSH host keys? [Y/n] " -s -n 1 -r; echo
 if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
   rm -r /etc/ssh/ssh*key
@@ -55,12 +56,14 @@ if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
 fi
 
 # define en_US.UTF-8 locale
+echo
 read -p "Set en_US utf8 locale? [Y/n] " -s -n 1 -r; echo
 if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
   localedef -i en_US -f UTF-8 en_US.UTF-8
   echo "Done."
 fi
 
+echo
 echo "Installing packages..."
 
 # install debian-keyring
@@ -241,6 +244,14 @@ if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
     su $NEWUSER -c "curl -s https://raw.githubusercontent.com/epistrephein/serverscripts/master/dotfiles.sh | bash 1>/dev/null"
   fi
     curl -s https://raw.githubusercontent.com/epistrephein/serverscripts/master/dotfiles.sh | bash 1>/dev/null
+  echo "Done."
+fi
+
+read -p "Apply advanced vim configuration? [y/N] " -s -n 1 -r; echo
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+  if [ ! -z "$NEWUSER" ]; then
+    su $NEWUSER -c "wget -q https://github.com/amix/vimrc/archive/master.zip -O ~/amix-vimrc.zip; unzip ~/amix-vimrc.zip -d ~/amix-vimrc >/dev/null && rm ~/amix-vimrc.zip; mv ~/amix-vimrc/vimrc-master ~/.vim_runtime && rmdir ~/amix-vimrc; sh ~/.vim_runtime/install_awesome_vimrc.sh"
+  fi
   echo "Done."
 fi
 
