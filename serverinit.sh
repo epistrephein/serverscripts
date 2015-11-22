@@ -46,18 +46,19 @@ echo
 echo "Updating packages index..."
 apt-get update >/dev/null
 
+if [ "$DISTRO" == "debian" ]; then
+  dpkg -s debian-keyring >/dev/null 2>&1 || apt-get install -y debian-keyring >/dev/null
+  dpkg -s debian-archive-keyring >/dev/null 2>&1 || apt-get install -y debian-archive-keyring >/dev/null
+fi
+
 # install essentials packages
 hash sudo 2>/dev/null || apt-get install -y sudo >/dev/null
 hash curl 2>/dev/null || apt-get install -y curl >/dev/null
 hash wget 2>/dev/null || apt-get install -y wget >/dev/null
 hash vim 2>/dev/null || { apt-get install -y vim >/dev/null; rm /usr/bin/vi; ln -s /usr/bin/vim /usr/bin/vi; }
 
-if [ "$DISTRO" == "debian" ]; then
-  dpkg -s debian-keyring >/dev/null 2>&1 || apt-get install -y debian-keyring >/dev/null
-  dpkg -s debian-archive-keyring >/dev/null 2>&1 || apt-get install -y debian-archive-keyring >/dev/null
-fi
-
 # install useful packages
+hash unzip 2>/dev/null || apt-get install -y unzip >/dev/null
 hash htop 2>/dev/null || apt-get install -y htop >/dev/null
 hash autojump 2>/dev/null || apt-get install -y autojump >/dev/null
 
@@ -152,7 +153,7 @@ if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
     echo "Allow port: $SSHPORT (auto-added)"
   elif [ -z "$SSHPORT" ] && ! [[ " ${ALLOWEDPORTS[@]} " =~ " ${SSHDCONFIGPORT} " ]]; then
     ufw allow $SSHDCONFIGPORT/tcp >/dev/null
-    echo "Allow port: $SSHDCONFIGPORT (auto-added)" 
+    echo "Allow port: $SSHDCONFIGPORT (auto-added)"
   fi
   echo "Starting ufw... "; echo y | ufw enable >/dev/null
   echo "Done."
