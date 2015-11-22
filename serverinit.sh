@@ -42,10 +42,28 @@ echo "     Initial Server Setup Script     "
 echo "====================================="
 echo
 
-## update packages
+# update packages
 echo "Updating packages index..."
 apt-get update >/dev/null
 
+# regenerate SSH keys
+read -p "Regenerate SSH host keys? [Y/n] " -s -n 1 -r; echo
+if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
+  rm -r /etc/ssh/ssh*key
+  dpkg-reconfigure openssh-server
+  echo "Done."
+fi
+
+# define en_US.UTF-8 locale
+read -p "Set en_US utf8 locale? [Y/n] " -s -n 1 -r; echo
+if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
+  localedef -i en_US -f UTF-8 en_US.UTF-8
+  echo "Done."
+fi
+
+echo "Installing packages..."
+
+# install debian-keyring
 if [ "$DISTRO" == "debian" ]; then
   dpkg -s debian-keyring >/dev/null 2>&1 || apt-get install -y debian-keyring >/dev/null
   dpkg -s debian-archive-keyring >/dev/null 2>&1 || apt-get install -y debian-archive-keyring >/dev/null
