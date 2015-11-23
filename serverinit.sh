@@ -56,6 +56,7 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
 fi
 
 # define en_US.UTF-8 locale
+echo
 read -p "Set en_US utf8 locale? [y/N] " -s -n 1 -r; echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
   localedef -i en_US -f UTF-8 en_US.UTF-8
@@ -284,13 +285,32 @@ fi
 echo
 echo "==== Configure additional services ===="
 
-# install nginx
-read -p "Install and configure nginx? [Y/n] " -s -n 1 -r; echo
-if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
-  wget -q https://raw.githubusercontent.com/epistrephein/serverscripts/master/nginx.sh; bash nginx.sh
-  echo "Done."
-fi
-
+echo "Install something else?"
+echo
+ADDITIONALSERVICES=1
+until [ $ADDITIONALSERVICES -eq 0 ]
+do
+  PS3='Please enter your choice: '
+  options=("nginx" "teamspeak" "quit")
+  select opt in "${options[@]}" 
+  do
+    case $opt in
+      "nginx")
+        wget -q https://raw.githubusercontent.com/epistrephein/serverscripts/master/nginx.sh; bash nginx.sh
+        break
+        ;;
+        "teamspeak")
+        wget -q https://raw.githubusercontent.com/epistrephein/serverscripts/master/teamspeak3.sh; bash teamspeak3.sh
+        break
+        ;;
+      "quit")
+        ADDITIONALSERVICES=0
+        break
+        ;;
+      *) echo "Invalid option";;
+    esac
+  done
+done
 
 echo
 echo "All done. Bye!"
