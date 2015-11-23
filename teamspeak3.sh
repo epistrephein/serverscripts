@@ -83,7 +83,7 @@ hash ufw 2>/dev/null && echo "Allowing port 9987 on UFW" && ufw allow 9987/udp >
 
 # start service
 service teamspeak3 start
-echo
+sleep 10
 
 # autoremove script
 [ -f $0 ] && rm -- "$0"
