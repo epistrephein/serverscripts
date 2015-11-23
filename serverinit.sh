@@ -241,9 +241,9 @@ update-alternatives --set editor /usr/bin/vim.basic >/dev/null
 read -p "Apply basic dotfiles? [Y/n] " -s -n 1 -r; echo
 if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
   if [ ! -z "$NEWUSER" ]; then
-    su $NEWUSER -c "curl -s https://raw.githubusercontent.com/epistrephein/serverscripts/master/dotfiles.sh | bash 1>/dev/null"
+    su $NEWUSER -c "curl -s https://raw.githubusercontent.com/epistrephein/serverscripts/master/dotfiles/dotfiles.sh | bash 1>/dev/null"
   fi
-    curl -s https://raw.githubusercontent.com/epistrephein/serverscripts/master/dotfiles.sh | bash 1>/dev/null
+    curl -s https://raw.githubusercontent.com/epistrephein/serverscripts/master/dotfiles/dotfiles.sh | bash 1>/dev/null
   echo "Done."
 fi
 
@@ -261,7 +261,7 @@ echo
 read -p "Clean up MOTD and add a banner? [Y/n] " -s -n 1 -r; echo
 if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
   if [ "$DISTRO" == "debian" ]; then
-    curl -s https://raw.githubusercontent.com/epistrephein/serverscripts/master/motd_debian.sh | bash 1>/dev/null
+    curl -s https://raw.githubusercontent.com/epistrephein/serverscripts/master/motd/motd-debian.sh | bash 1>/dev/null
     if [[ "$(python -mplatform)" ==  *"debian-7"* ]]; then
       dpkg -s update-notifier-common >/dev/null 2>&1 || apt-get install -y update-notifier-common >/dev/null
     elif [[ "$(python -mplatform)" ==  *"debian-8"* ]]; then
@@ -269,7 +269,7 @@ if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
       sed -i '$ d' /etc/update-motd.d/50-sysinfo
     fi
   elif [ "$DISTRO" == "ubuntu" ]; then
-    curl -s https://raw.githubusercontent.com/epistrephein/serverscripts/master/motd_ubuntu.sh | bash 1>/dev/null
+    curl -s https://raw.githubusercontent.com/epistrephein/serverscripts/master/motd/motd-ubuntu.sh | bash 1>/dev/null
   fi
   read -p "Customize the banner now? [y/N] " -s -n 1 -r; echo
   if [[ $REPLY =~ ^[Yy]$ ]]; then
@@ -299,14 +299,14 @@ Please enter your choice: "
       "nginx")
         echo
         echo "Installing nginx..."
-        wget -q https://raw.githubusercontent.com/epistrephein/serverscripts/master/nginx.sh; bash nginx.sh
+        wget -q https://raw.githubusercontent.com/epistrephein/serverscripts/master/nginx/nginx.sh; bash nginx.sh
         echo "Done."
         break
         ;;
         "teamspeak")
         echo
         echo "Installing teamspeak server..."
-        wget -q https://raw.githubusercontent.com/epistrephein/serverscripts/master/teamspeak3.sh; bash teamspeak3.sh
+        wget -q https://raw.githubusercontent.com/epistrephein/serverscripts/master/teamspeak/teamspeak3.sh; bash teamspeak3.sh
         break
         ;;
       "quit")
