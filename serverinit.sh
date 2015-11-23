@@ -285,21 +285,27 @@ fi
 echo
 echo "==== Configure additional services ===="
 
-echo "Install something else?"
-echo
 ADDITIONALSERVICES=1
 until [ $ADDITIONALSERVICES -eq 0 ]
 do
-  PS3='Please enter your choice: '
+  echo
+  echo "Install something else?"
+  PS3="
+Please enter your choice: "
   options=("nginx" "teamspeak" "quit")
   select opt in "${options[@]}" 
   do
     case $opt in
       "nginx")
+        echo
+        echo "Installing nginx..."
         wget -q https://raw.githubusercontent.com/epistrephein/serverscripts/master/nginx.sh; bash nginx.sh
+        echo "Done."
         break
         ;;
         "teamspeak")
+        echo
+        echo "Installing teamspeak server...."
         wget -q https://raw.githubusercontent.com/epistrephein/serverscripts/master/teamspeak3.sh; bash teamspeak3.sh
         break
         ;;

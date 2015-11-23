@@ -60,7 +60,7 @@ done < TS3_STABLE_RELEASES.txt
 rm TS3_STABLE_RELEASES.txt
 
 # install teamspeak server
-echo "Downloading Teamspeak server"
+echo "Downloading latest teamspeak server"
 wget -q http://ftp.4players.de/pub/hosted/ts3/releases/"$LATEST"/teamspeak3-server_linux-"$ARCH"-"$LATEST".tar.gz
 adduser --disabled-login --gecos "" --quiet teamspeak3
 tar xzf teamspeak3-server_linux-"$ARCH"-"$LATEST".tar.gz
@@ -83,6 +83,7 @@ hash ufw 2>/dev/null && echo "Allowing port 9987 on UFW" && ufw allow 9987/udp >
 
 # start service
 service teamspeak3 start
+echo
 
 # autoremove script
 [ -f $0 ] && rm -- "$0"
