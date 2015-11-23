@@ -8,5 +8,4 @@ if [ -z "$DISTRIB_DESCRIPTION" ] && [ -x /usr/bin/lsb_release ]; then
 fi
 
 printf "Welcome to %s (%s)\n" "$DISTRIB_DESCRIPTION" "$KERNEL_DESCRIPTION"
-printf "\n"
 
