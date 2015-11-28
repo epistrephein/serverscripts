@@ -109,6 +109,7 @@ if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
   elif [ -f /usr/share/nginx/www/index.html ]; then
     cp /usr/share/nginx/www/index.html /var/www/$NGINXROOTFOLDER/html/index.html
   fi
+  chown $CHOWNUSER:$CHOWNUSER /var/www/$NGINXROOTFOLDER/html/index.html
 fi
 
 echo "Restarting nginx..."
