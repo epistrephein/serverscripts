@@ -48,22 +48,22 @@ if ! $(locale -a 2>/dev/null | grep -q ^en_US.utf8) ; then
   if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
     localedef -i en_US -f UTF-8 en_US.UTF-8
     echo "Done."
+    echo
   fi
 fi
 
 # regenerate SSH keys if ecdsa is missing
 if [[ ! -f /etc/ssh/ssh_host_ecdsa_key ]] || [[ ! -f /etc/ssh/ssh_host_ecdsa_key.pub ]]; then
-  echo
   read -p "ECDSA SSH key is missing. Regenerate SSH host keys? [Y/n] " -s -n 1 -r; echo
   if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
     rm -r /etc/ssh/ssh*key
     dpkg-reconfigure openssh-server >/dev/null 2>&1
     echo "Done."
+    echo
   fi
 fi
 
 # update and install packages
-echo
 echo "Updating and installing packages..."
 apt-get update >/dev/null
 
@@ -252,7 +252,7 @@ echo
 read -p "Apply advanced vim configuration? [y/N] " -s -n 1 -r; echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
   if [ ! -z "$NEWUSER" ]; then
-    su $NEWUSER -c "wget -q https://github.com/amix/vimrc/archive/master.zip -O ~/amix-vimrc.zip; unzip ~/amix-vimrc.zip -d ~/amix-vimrc >/dev/null && rm ~/amix-vimrc.zip; mv ~/amix-vimrc/vimrc-master ~/.vim_runtime && rmdir ~/amix-vimrc; sh ~/.vim_runtime/install_awesome_vimrc.sh"
+    su $NEWUSER -c "wget -q https://github.com/amix/vimrc/archive/master.zip -O ~/amix-vimrc.zip; unzip ~/amix-vimrc.zip -d ~/amix-vimrc >/dev/null && rm ~/amix-vimrc.zip; mv ~/amix-vimrc/vimrc-master ~/.vim_runtime && rmdir ~/amix-vimrc; sh ~/.vim_runtime/install_awesome_vimrc.sh >/dev/null"
   fi
   echo "Done."
 fi
