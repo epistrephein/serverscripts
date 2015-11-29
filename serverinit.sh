@@ -63,12 +63,13 @@ if [[ ! -f /etc/ssh/ssh_host_ecdsa_key ]] || [[ ! -f /etc/ssh/ssh_host_ecdsa_key
   fi
 fi
 
-# update and install packages
 echo "Updating and installing packages..."
 apt-get update >/dev/null
 
-# install debian-keyring
+# install basic debian packages
 if [ "$DISTRO" == "debian" ]; then
+  dpkg -s apt-utils >/dev/null 2>&1 || apt-get install -y apt-utils >/dev/null
+  dpkg -s dialog >/dev/null 2>&1 || apt-get install -y dialog >/dev/null
   dpkg -s debian-keyring >/dev/null 2>&1 || apt-get install -y debian-keyring >/dev/null
   dpkg -s debian-archive-keyring >/dev/null 2>&1 || apt-get install -y debian-archive-keyring >/dev/null
 fi
