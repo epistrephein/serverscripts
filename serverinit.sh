@@ -319,6 +319,13 @@ Please enter your choice: "
 done
 
 echo
+read -p "Launch apt upgrade? [Y/n] " -s -n 1 -r; echo
+if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
+  apt-get upgrade; apt-get dist-upgrade; apt-get autoremove; apt-get clean
+  echo "Done."
+fi
+
+echo
 echo "All done. Bye!"
 echo
 
