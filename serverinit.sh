@@ -43,7 +43,7 @@ echo "====================================="
 echo
 
 # define en_US.UTF-8 locale if not set
-if [[ ! $(locale -a 2>/dev/null | grep -q ^en_US.utf8) ]]; then
+if ! $(locale -a 2>/dev/null | grep -q ^en_US.utf8) ; then
   read -p "Some locale settings are missing. Set en_US.utf8 locale? [Y/n] " -s -n 1 -r; echo
   if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
     localedef -i en_US -f UTF-8 en_US.UTF-8

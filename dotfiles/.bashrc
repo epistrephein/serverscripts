@@ -22,9 +22,9 @@ alias ....="cd ../../.."
 alias prev="cd -"
 alias l='ls'
 alias ll="ls -AFGhl"
+
 mkcd () { mkdir "$@"; cd "$@"; }
 up() { cd $(eval printf '../'%.0s {1..$1}) && pwd; }
-alias e="vim"
 
 # autojump
 [[ -e /usr/share/autojump/autojump.sh ]] && source /usr/share/autojump/autojump.sh
