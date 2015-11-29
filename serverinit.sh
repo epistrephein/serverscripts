@@ -42,29 +42,30 @@ echo "     Initial Server Setup Script     "
 echo "====================================="
 echo
 
-# update packages
-echo "Updating packages index..."
+# define en_US.UTF-8 locale if not set
+if [[ ! $(locale -a 2>/dev/null | grep -q ^en_US.utf8) ]]; then
+  read -p "Some locale settings are missing. Set en_US.utf8 locale? [Y/n] " -s -n 1 -r; echo
+  if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
+    localedef -i en_US -f UTF-8 en_US.UTF-8
+    echo "Done."
+  fi
+fi
+
+# regenerate SSH keys if ecdsa is missing
+if [[ ! -f /etc/ssh/ssh_host_ecdsa_key ]] || [[ ! -f /etc/ssh/ssh_host_ecdsa_key.pub ]]; then
+  echo
+  read -p "ECDSA SSH key is missing. Regenerate SSH host keys? [Y/n] " -s -n 1 -r; echo
+  if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
+    rm -r /etc/ssh/ssh*key
+    dpkg-reconfigure openssh-server >/dev/null 2>&1
+    echo "Done."
+  fi
+fi
+
+# update and install packages
+echo
+echo "Updating and installing packages..."
 apt-get update >/dev/null
-
-# define en_US.UTF-8 locale
-echo
-read -p "Set en_US utf8 locale? [y/N] " -s -n 1 -r; echo
-if [[ $REPLY =~ ^[Yy]$ ]]; then
-  localedef -i en_US -f UTF-8 en_US.UTF-8
-  echo "Done."
-fi
-
-# regenerate SSH keys
-echo
-read -p "Regenerate SSH host keys? [y/N] " -s -n 1 -r; echo
-if [[ $REPLY =~ ^[Yy]$ ]]; then
-  rm -r /etc/ssh/ssh*key
-  dpkg-reconfigure openssh-server >/dev/null
-  echo "Done."
-fi
-
-echo
-echo "Installing packages..."
 
 # install debian-keyring
 if [ "$DISTRO" == "debian" ]; then
