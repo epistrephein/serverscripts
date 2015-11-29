@@ -59,7 +59,7 @@ echo
 read -p "Regenerate SSH host keys? [y/N] " -s -n 1 -r; echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
   rm -r /etc/ssh/ssh*key
-  dpkg-reconfigure openssh-server
+  dpkg-reconfigure openssh-server >/dev/null
   echo "Done."
 fi
 
