@@ -161,7 +161,7 @@ fi
 echo
 read -p "Enable ufw? [Y/n] " -s -n 1 -r; echo
 if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
-  hash ufw 2>/dev/null || { echo "Installing ufw..."; apt-get install -y ufw >/dev/null; }
+  hash ufw 2>/dev/null || { echo "Installing ufw..."; apt-get install -y ufw >/dev/null 2>&1; }
   printf "Insert ports to allow (separated by space): "; read -a ALLOWEDPORTS
   VALIDINPUT='^[0-9]+$'
   for p in ${ALLOWEDPORTS[@]}
