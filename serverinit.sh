@@ -74,6 +74,11 @@ if [ "$DISTRO" == "debian" ]; then
   dpkg -s debian-archive-keyring >/dev/null 2>&1 || apt-get install -y debian-archive-keyring >/dev/null
 fi
 
+# install basic ubuntu packages
+if [ "$DISTRO" == "ubuntu" ]; then
+  dpkg -s landscape-common >/dev/null 2>&1 || apt-get install -y landscape-common >/dev/null
+fi
+
 # install essentials packages
 hash sudo 2>/dev/null || apt-get install -y sudo >/dev/null
 hash curl 2>/dev/null || apt-get install -y curl >/dev/null
