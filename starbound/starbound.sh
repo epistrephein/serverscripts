@@ -32,7 +32,7 @@ fi
 echo "Installing SteamCMD"
 # required library for Steam
 dpkg -s lib32gcc1 >/dev/null 2>&1 || apt-get install -y lib32gcc1 >/dev/null
-adduser --disabled-login --gecos "" --quiet starbound
+id -u >/dev/null 2>&1 "starbound" || adduser --disabled-login --gecos "" --quiet starbound
 su -c "mkdir ~/steamcmd && cd ~/steamcmd; wget -q http://media.steampowered.com/client/steamcmd_linux.tar.gz && tar -xzf steamcmd_linux.tar.gz && rm steamcmd_linux.tar.gz" starbound
 su -c "cd ~/steamcmd && ./steamcmd.sh +quit" starbound >/dev/null
 
@@ -40,9 +40,16 @@ su -c "cd ~/steamcmd && ./steamcmd.sh +quit" starbound >/dev/null
 read -p "Enter Steam username: " STEAMUSER
 read -s -p "Enter $STEAMUSER password: " STEAMPASSWORD; echo
 
-echo "Installing Starbound"
-# the command is not piped to /dev/null in case SteamGuard is on and you need to type the code (need some fixing)
-su -c "cd ~/steamcmd && ./steamcmd.sh +login $STEAMUSER $STEAMPASSWORD +force_install_dir /home/starbound/starbound +app_update 211820 +quit" starbound
+echo | su -c "cd ~/steamcmd && ./steamcmd.sh +login $STEAMUSER $STEAMPASSWORD +quit" starbound >/dev/null
+if [ $? -eq 0 ]; then
+  echo "Installing Starbound. It may take a bit."
+  su -c "cd ~/steamcmd && ./steamcmd.sh +login $STEAMUSER $STEAMPASSWORD +force_install_dir /home/starbound/starbound +app_update 211820 +quit" starbound >/dev/null
+else
+  echo "Wrong password or SteamGuard active, running interactively"
+  sleep 2
+  su -c "cd ~/steamcmd && ./steamcmd.sh +login $STEAMUSER +force_install_dir /home/starbound/starbound +app_update 211820 +quit" starbound
+  echo
+fi
 
 # create init script
 echo "Creating service"
@@ -56,6 +63,7 @@ hash ufw 2>/dev/null && echo "Allowing port 21025 on UFW" && ufw allow 21025/tcp
 
 # start service
 service starbound_server start
+echo "Run tail -f /home/starbound/starbound/giraffe_storage/starbound_server.log to monitor the server."
 
 # autoremove script
 [ -f $0 ] && rm -- "$0"

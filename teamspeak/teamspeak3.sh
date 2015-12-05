@@ -62,7 +62,7 @@ rm TS3_STABLE_RELEASES.txt
 # install teamspeak server
 echo "Downloading latest teamspeak server"
 wget -q http://ftp.4players.de/pub/hosted/ts3/releases/"$LATEST"/teamspeak3-server_linux-"$ARCH"-"$LATEST".tar.gz
-adduser --disabled-login --gecos "" --quiet teamspeak3
+id -u >/dev/null 2>&1 "teamspeak3" || adduser --disabled-login --gecos "" --quiet teamspeak3
 tar xzf teamspeak3-server_linux-"$ARCH"-"$LATEST".tar.gz
 rm teamspeak3-server_linux-"$ARCH"-"$LATEST".tar.gz
 mv teamspeak3-server_linux-"$ARCH" /usr/local/teamspeak3
