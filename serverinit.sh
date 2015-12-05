@@ -168,7 +168,7 @@ if [[ $REPLY =~ ^[Yy]$ || $REPLY == "" ]]; then
   do
     if [[ $p =~ $VALIDINPUT ]]; then
       ufw allow $p/tcp >/dev/null
-      echo "Allow port: $p"
+      echo "Allow port: $p/tcp"
     else
       echo "$p is not a valid port number, skipping"
     fi
@@ -299,7 +299,7 @@ do
   echo "Install something else?"
   PS3="
 Please enter your choice: "
-  options=("nginx" "teamspeak" "quit")
+  options=("nginx" "teamspeak" "starbound" "quit")
   select opt in "${options[@]}" 
   do
     case $opt in
@@ -314,6 +314,12 @@ Please enter your choice: "
         echo
         echo "Installing teamspeak server..."
         wget -q https://raw.githubusercontent.com/epistrephein/serverscripts/master/teamspeak/teamspeak3.sh; bash teamspeak3.sh
+        break
+        ;;
+      "starbound")
+        echo
+        echo "Installing starbound server..."
+        wget -q https://raw.githubusercontent.com/epistrephein/serverscripts/master/starbound/starbound.sh; bash starbound.sh
         break
         ;;
       "quit")

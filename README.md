@@ -20,24 +20,3 @@ Simply run this command from root:
 * Apply some basic dotfiles (specifically `.bashrc`, `.inputrc`, `.vimrc` and a vim theme).
 * Cleanup the MOTD and add a customizable banner for ASCII art.
 * Install additional services and utilities.
-
-## Errors
-Here are some common errors (with solutions) you may encounter on new servers.
-
-##### Error: missing SSH keys
-
-    error: Could not load host key: /etc/ssh/ssh_host_ecdsa_key
-
-##### Solution: regenerate SSH host keys
-
-    $ sudo rm -r /etc/ssh/ssh*key
-    $ sudo dpkg-reconfigure openssh-server
-
-***
-##### Error: missing locale settings
-
-    -su: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
-
-##### Solution: generate missing locales
-
-    $ localedef -i en_US -f UTF-8 en_US.UTF-8
