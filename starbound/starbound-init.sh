@@ -46,6 +46,15 @@ status() {
   fi
 }
 
+logs() {
+  if [ "$(id -u)" != "0" ]; then
+    { echo "Requires root privilege." >&2; }
+    exit 1
+  else
+    tail -f /home/starbound/starbound/giraffe_storage/starbound_server.log
+  fi
+}
+
 case "$1" in
   start)
     start
@@ -56,6 +65,9 @@ case "$1" in
   status)
     status
     ;;
+  logs)
+    logs
+    ;;
   *)
-    echo "Usage: $0 {start|stop|status}"
+    echo "Usage: $0 {start|stop|status|logs}"
 esac
