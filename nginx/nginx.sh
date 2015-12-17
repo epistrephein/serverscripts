@@ -27,7 +27,7 @@ if $(hash httpd 2>/dev/null) || $(hash apache 2>/dev/null) || $(hash apache2 2>/
     echo
     service apache2 stop >/dev/null 2>&1
     apt-get purge -y apache2* >/dev/null 2>&1
-    if [ -d /var/www/html/ ] && [ -f /var/www/html/index.html ]; then
+    if [ -d /var/www/html/ ] && [ -f /var/www/html/index.html ] && [ $(ls -1 /var/www/html/ | wc -l) == 1 ]; then
       rm -rf /var/www/html
     fi
   fi
