@@ -2,33 +2,34 @@
 #  CUSTOM SETTINGS
 # ---------------------------------------------------------
 
-# color prompt
-export PS1="\[\e[1;37m\][\u@\h \W]\$ \[\e[m\]"
+# term
+export TERM=xterm-256color
 
 # editors
 export VISUAL=vim
 export EDITOR=vim
 
-# case-insensitive globbing (used in pathname expansion)
+# shell behavior
 shopt -s nocaseglob;
-# autocorrect typos in path names when using `cd`
 shopt -s cdspell;
-# allow aliases with sudo
-alias sudo="sudo "
 
+# aliases
 alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
-alias prev="cd -"
+
 alias l='ls'
 alias ll="ls -AFGhl"
 
-mkcd () { mkdir "$@"; cd "$@"; }
-up() { cd $(eval printf '../'%.0s {1..$1}) && pwd; }
+alias sudo="sudo "
+
+mkcd() { mkdir "$1"; cd "$1"; }
+
+# locales
+export LANGUAGE=en_US.UTF-8
+export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
 
 # autojump
 [[ -e /usr/share/autojump/autojump.sh ]] && source /usr/share/autojump/autojump.sh
 export AUTOJUMP_IGNORE_CASE=1
-
-# grep
-export GREP_OPTIONS='--color=auto'
