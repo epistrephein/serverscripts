@@ -1,14 +1,5 @@
 #!/usr/bin/env bash
 
-# MOTD changer script for Ubuntu
-
-
-# check if Ubuntu
-if [[ "$(python -mplatform)" !=  *"Ubuntu"* ]]; then
-  { echo "This script requires Ubuntu." >&2; }
-  exit 1
-fi
-
 # check if root
 if [[ $EUID -ne 0 ]]; then
   { echo "This script must be run as root." >&2; }
@@ -35,6 +26,12 @@ if [ -f /etc/update-motd.d/51-cloudguest ]; then
   echo "Removed Ubuntu Cloud Guest notice"
 fi
 
+# remove overlayroot
+if [ -f /etc/update-motd.d/97-overlayroot ]; then
+  chmod -x /etc/update-motd.d/97-overlayroot
+  echo "Removed overlay root"
+fi
+
 # add banner file
 if [ ! -f /etc/update-motd.d/20-banner ]; then
   wget -q https://raw.githubusercontent.com/epistrephein/serverscripts/master/motd/20-banner-ubuntu -O /etc/update-motd.d/20-banner
@@ -43,4 +40,4 @@ if [ ! -f /etc/update-motd.d/20-banner ]; then
 fi
 
 # autoremove script
-[ -f $0 ] && rm -- "$0"
+[ -f "$0" ] && rm -- "$0"
