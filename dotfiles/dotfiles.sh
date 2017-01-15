@@ -7,7 +7,7 @@ curl -sL https://raw.githubusercontent.com/epistrephein/serverscripts/master/dot
 echo "Updated .inputrc"
 
 [ ! -d "$HOME/.vim/colors" ] && mkdir -p "$HOME/.vim/colors"
-curl -sL -o "$HOME/.vim/colors/rdark.vim https://raw.githubusercontent.com/epistrephein/serverscripts/master/dotfiles/rdark.vim"
+curl -sL -o "$HOME/.vim/colors/rdark.vim" https://raw.githubusercontent.com/epistrephein/serverscripts/master/dotfiles/rdark.vim
 echo "Installed rdark vim theme"
 
 curl -sL https://raw.githubusercontent.com/epistrephein/serverscripts/master/dotfiles/.vimrc > "$HOME/.vimrc"
