@@ -32,3 +32,6 @@ export LC_ALL=en_US.UTF-8
 # autojump
 [[ -e /usr/share/autojump/autojump.sh ]] && source /usr/share/autojump/autojump.sh
 export AUTOJUMP_IGNORE_CASE=1
+
+# root color prompt
+[[ $EUID -eq 0 ]] && export PS1="\[\e[1;37m\][\u@\h \W]\$ \[\e[m\]"
